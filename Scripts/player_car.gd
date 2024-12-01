@@ -11,7 +11,7 @@ extends RigidBody3D
 var current_turn_speed: float = 0.0
 var current_turn_direction: float = 0.0
 var target_angle: float = 0.0
-var joystick_force: float = 0.
+var joystick_force: float = 0.0
 var joystick_dead: bool = true
 
 func _ready():
@@ -19,6 +19,7 @@ func _ready():
 		push_error("chase_entity not found, must be set!")
 	gravity_scale = 2.0
 	angular_damp = angular_damping
+	
 
 func shortest_rotation_direction(current: float, target: float) -> float:
 	# Normalize angles to be between -180 and 180
@@ -67,27 +68,28 @@ func _physics_process(delta: float):
 		while angle_dif < -180:
 			angle_dif += 360
 		
-		# Calculate turn direction and magnitude
-		var turn_direction = shortest_rotation_direction(cur_ang_vec, target_angle)
-
+		current_turn_direction = turn_speed * turn_velocity * (angle_dif / 180.0)
 		
-		# Apply torque proportional to the angle difference
-		var torque_strength = turn_direction * turn_speed * turn_velocity
-		print(torque_strength)
-		apply_torque(Vector3(0, torque_strength * (delta * 60), 0))
-		
-		# Apply forward force based on joystick input
-		apply_force(backward_vector * speed * joystick_force * (delta * 60))
-		
-		# Store current turn direction for visual updates
-		current_turn_direction = torque_strength
+		# Apply torque and force
+		apply_torque(Vector3(0, current_turn_direction, 0))
+		apply_force(backward_vector * speed * joystick_force)
+	
+	# Update turn speed with interpolation
+	current_turn_speed = lerp(
+		current_turn_speed,
+		-current_turn_direction / 3.0,
+		0.05
+	)
+	
+	if abs(current_turn_speed) < 0.1:
+		current_turn_speed = 0
 
 func _process(delta: float):
 	# Update chase_entity orientation
-	if chase_entity:
-		chase_entity.rotation_degrees = Vector3(0, 0, current_turn_speed * 5.0)
-		var t = -current_turn_direction * linear_velocity.length() / 20
-		chase_entity.rotation.z = lerp(chase_entity.rotation.z, t, 10 * delta)
+	#if chase_entity:
+		#chase_entity.rotation_degrees = Vector3(0, 0, current_turn_speed * 5.0)
+		#var t = -current_turn_direction * linear_velocity.length() / 20
+		#chase_entity.rotation.z = lerp(chase_entity.rotation.z, t, 10 * delta)
 	
 	# Update wheels
 	for wheel in wheels:
