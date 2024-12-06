@@ -9,7 +9,6 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bm3mu"]
 resource_name = "colormap"
 vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 1)
 emission_enabled = true
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_pw2m6"]
@@ -205,13 +204,12 @@ albedo_texture = ExtResource("3_thqx0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.52627, 0)
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.2, -0.2)
-inertia = Vector3(1, 0, 1)
 script = ExtResource("2_fyct4")
-max_speed = 35.0
+max_speed = 33.0
 speed = 40.0
-turn_speed = 7.0
-max_turn_velocity = 1.5
-angular_damping = 4.0
+turn_speed = 9.0
+max_turn_velocity = 2.0
+angular_damping = 1.4
 chase_entity = NodePath("Chasis")
 
 [node name="truck" type="Node3D" parent="Player"]

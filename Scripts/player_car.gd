@@ -19,19 +19,6 @@ func _ready():
 		push_error("chase_entity not found, must be set!")
 	gravity_scale = 2.0
 	angular_damp = angular_damping
-	
-
-func shortest_rotation_direction(current: float, target: float) -> float:
-	# Normalize angles to be between -180 and 180
-	var angle_diff = target - current
-	
-	# Find the shortest rotation direction
-	if angle_diff > 180:
-		angle_diff -= 360
-	elif angle_diff < -180:
-		angle_diff += 360
-	
-	return sign(angle_diff)
 
 func _physics_process(delta: float):
 	# Simulating joystick input (replace with your actual input system)
@@ -59,8 +46,8 @@ func _physics_process(delta: float):
 		var velocity = linear_velocity.length()
 		var turn_velocity = min(velocity, max_turn_velocity)
 		
-		var cur_ang_vec = get_global_rotation_degrees().y
-		var angle_dif = target_angle - cur_ang_vec
+		var cur_angle = get_global_rotation_degrees().y
+		var angle_dif = target_angle - cur_angle
 		
 		# Normalize angle difference
 		while angle_dif > 180:
@@ -68,18 +55,17 @@ func _physics_process(delta: float):
 		while angle_dif < -180:
 			angle_dif += 360
 		
-		current_turn_direction = turn_speed * turn_velocity * (angle_dif / 180.0)
-		
+		current_turn_direction = turn_speed * turn_velocity * (angle_dif / 180)
+			# Update turn speed with interpolation
+		#current_turn_direction = lerpf(0, current_turn_direction, 1)
+		#print(current_turn_direction)
+		#print(current_turn_speed)
+		#print(angle_dif / 180.0)
 		# Apply torque and force
 		apply_torque(Vector3(0, current_turn_direction, 0))
 		apply_force(backward_vector * speed * joystick_force)
 	
-	# Update turn speed with interpolation
-	current_turn_speed = lerp(
-		current_turn_speed,
-		-current_turn_direction / 3.0,
-		0.05
-	)
+	current_turn_speed = lerpf(current_turn_speed, -current_turn_direction / 3, 0.05)
 	
 	if abs(current_turn_speed) < 0.1:
 		current_turn_speed = 0
