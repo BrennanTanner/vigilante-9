@@ -387,15 +387,15 @@ center_of_mass_mode = 1
 script = ExtResource("2_fyct4")
 max_speed = 100.0
 speed = 100.0
-turn_speed = 10.0
-max_turn_velocity = 3.0
+turn_speed = 7.0
+max_turn_velocity = 2.5
 angular_damping = 2.0
 linear_damping = 2.0
 chase_entity = NodePath("truck/body")
 wheels = [NodePath("truck/wheel_frontLeft"), NodePath("truck/wheel_frontRight")]
 
 [node name="truck" type="Node3D" parent="Player"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0.3)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -1.3)
 
 [node name="body" type="MeshInstance3D" parent="Player/truck"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.2)
