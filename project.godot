@@ -23,6 +23,33 @@ enabled=PackedStringArray("res://addons/virtual_joystick/plugin.cfg")
 pointing/emulate_touch_from_mouse=true
 pointing/emulate_mouse_from_touch=false
 
+[physics]
+
+3d/physics_engine="Rapier3D"
+
 [rendering]
 
 renderer/rendering_method="mobile"
+
+[shader_globals]
+
+diffuse_curve={
+"type": "sampler2D",
+"value": "res://src/diffuse-texture.tres"
+}
+specular_smoothness={
+"type": "float",
+"value": 0.05
+}
+fresnel_smoothness={
+"type": "float",
+"value": 0.05
+}
+outline_width={
+"type": "float",
+"value": 4.0
+}
+outline_color={
+"type": "color",
+"value": Color(0.0110876, 0.0110876, 0.0110876, 1)
+}
