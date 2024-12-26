@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.3", "Mobile")
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/virtual_joystick/plugin.cfg")
+enabled=PackedStringArray("res://addons/infinite_heightmap_terrain/plugin.cfg", "res://addons/virtual_joystick/plugin.cfg")
 
 [input_devices]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://camopr6i6qhcn"]
+[gd_scene load_steps=34 format=4 uid="uid://camopr6i6qhcn"]
 
 [ext_resource type="PackedScene" uid="uid://bq2sqb1u1l5ve" path="res://Scenes/joystick.tscn" id="2_8lsrf"]
 [ext_resource type="Script" path="res://Scripts/player_car.gd" id="2_fyct4"]
@@ -21,6 +21,7 @@ shader_parameter/uv_offset = Vector2(0, 0)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7niuv"]
 render_priority = 0
 shader = ExtResource("4_rbf4y")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ci6nn"]
 render_priority = 0
@@ -32,13 +33,8 @@ shader_parameter/fresnel = Color(0.2, 0.2, 0.2, 0.3)
 shader_parameter/uv_scale = Vector2(1, 1)
 shader_parameter/uv_offset = Vector2(0, 0)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_utkh1"]
-render_priority = 0
-shader = ExtResource("4_rbf4y")
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2wnt2"]
 render_priority = 0
-next_pass = SubResource("ShaderMaterial_utkh1")
 shader = ExtResource("5_6et0x")
 shader_parameter/color = Color(0.230066, 0.65333, 0.352575, 1)
 shader_parameter/specular = Color(0.3, 0.3, 0.3, 0.5)
@@ -49,6 +45,7 @@ shader_parameter/uv_offset = Vector2(0, 0)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pry1s"]
 render_priority = 0
 shader = ExtResource("4_rbf4y")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5l5cs"]
 render_priority = 0
@@ -398,7 +395,7 @@ wheels = [NodePath("truck/wheel_frontLeft"), NodePath("truck/wheel_frontRight")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -1.3)
 
 [node name="body" type="MeshInstance3D" parent="Player/truck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -0.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.10543e-15, 0.2, -0.2)
 mesh = SubResource("ArrayMesh_kxwag")
 skeleton = NodePath("")
 
@@ -455,7 +452,7 @@ material_override = SubResource("StandardMaterial3D_yno65")
 mesh = SubResource("PlaneMesh_ydca2")
 
 [node name="Camera3D" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_bn1tj")]
-transform = Transform3D(-1, -6.18172e-08, 6.18172e-08, 0, 0.707107, 0.707107, -8.74228e-08, 0.707107, -0.707107, 0, 8, -4)
+transform = Transform3D(-1, -6.18173e-08, 6.18173e-08, 0, 0.707107, 0.707107, -8.74228e-08, 0.707107, -0.707107, 0, 15, -9)
 script = ExtResource("4_rxkg7")
 target = NodePath("../Player")
 
