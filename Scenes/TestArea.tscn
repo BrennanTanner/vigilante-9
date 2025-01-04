@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://camopr6i6qhcn"]
+[gd_scene load_steps=41 format=4 uid="uid://camopr6i6qhcn"]
 
 [ext_resource type="PackedScene" uid="uid://bq2sqb1u1l5ve" path="res://Scenes/joystick.tscn" id="2_8lsrf"]
 [ext_resource type="Script" path="res://Scripts/player_car.gd" id="2_fyct4"]
@@ -7,6 +7,7 @@
 [ext_resource type="Shader" path="res://src/outline.gdshader" id="4_rbf4y"]
 [ext_resource type="Script" path="res://Scenes/follow_entity.gd" id="4_rxkg7"]
 [ext_resource type="Shader" path="res://src/cel-shader-base.gdshader" id="5_6et0x"]
+[ext_resource type="Texture2D" uid="uid://cr5i84s3mi8hk" path="res://Assets/Textures/grass.jpg" id="5_7thab"]
 [ext_resource type="Shader" path="res://src/globalOutline.gdshader" id="9_f3tec"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h004l"]
@@ -59,7 +60,6 @@ shader_parameter/uv_offset = Vector2(0, 0)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gft4e"]
 resource_name = "_defaultMat"
-albedo_color = Color(1, 1, 1, 1)
 metallic = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_32rl5"]
@@ -345,6 +345,22 @@ size = Vector3(0.3, 0.5, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3bbww"]
 size = Vector3(0.3, 0.5, 0.5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fe7ae"]
+albedo_texture = ExtResource("5_7thab")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6ivb5"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_5job6"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5qrcj"]
+friction = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_8gh71"]
+size = Vector3(5, 6, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4dbju"]
+size = Vector3(5, 6, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_1ap6x"]
 size = Vector3(400, 1, 400)
 
@@ -377,22 +393,20 @@ size = Vector2(2, 2)
 
 [node name="joystick" parent="." instance=ExtResource("2_8lsrf")]
 
-[node name="Player" type="RigidBody3D" parent="." node_paths=PackedStringArray("chase_entity", "wheels")]
+[node name="Player" type="RigidBody3D" parent="." node_paths=PackedStringArray("body_entity", "chasis_entity", "ray_cast", "wheels")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.52627, 0)
 gravity_scale = 3.0
 center_of_mass_mode = 1
 script = ExtResource("2_fyct4")
-max_speed = 100.0
-speed = 100.0
-turn_speed = 7.0
-max_turn_velocity = 2.5
-angular_damping = 2.0
-linear_damping = 2.0
-chase_entity = NodePath("truck/body")
+max_speed = 30.0
+linear_damping = 4.0
+body_entity = NodePath("truck")
+chasis_entity = NodePath("truck/body")
+ray_cast = NodePath("RayCast3D")
 wheels = [NodePath("truck/wheel_frontLeft"), NodePath("truck/wheel_frontRight")]
 
 [node name="truck" type="Node3D" parent="Player"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -1.3)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0.9)
 
 [node name="body" type="MeshInstance3D" parent="Player/truck"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.10543e-15, 0.2, -0.2)
@@ -439,6 +453,31 @@ shape = SubResource("BoxShape3D_73ccs")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.425, 0.3, -0.55)
 shape = SubResource("BoxShape3D_3bbww")
 
+[node name="RayCast3D" type="RayCast3D" parent="Player"]
+target_position = Vector3(0, -0.1, 0)
+hit_from_inside = true
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Player"]
+material_override = SubResource("StandardMaterial3D_fe7ae")
+process_material = SubResource("ParticleProcessMaterial_6ivb5")
+draw_pass_1 = SubResource("QuadMesh_5job6")
+
+[node name="Sprite3D" type="Sprite3D" parent="Player/GPUParticles3D"]
+visible = false
+texture = ExtResource("5_7thab")
+
+[node name="ramp" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+physics_material_override = SubResource("PhysicsMaterial_5qrcj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ramp"]
+transform = Transform3D(1, 0, 0, 0, 0.573576, -0.819152, 0, 0.819152, 0.573576, 0, 1, 14)
+mesh = SubResource("BoxMesh_8gh71")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ramp"]
+transform = Transform3D(1, 0, 0, 0, 0.642788, -0.766044, 0, 0.766044, 0.642788, 0, 1, 14)
+shape = SubResource("BoxShape3D_4dbju")
+
 [node name="Ground" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
@@ -454,7 +493,7 @@ mesh = SubResource("PlaneMesh_ydca2")
 [node name="Camera3D" parent="." node_paths=PackedStringArray("target") instance=ExtResource("3_bn1tj")]
 transform = Transform3D(-1, -6.18173e-08, 6.18173e-08, 0, 0.707107, 0.707107, -8.74228e-08, 0.707107, -0.707107, 0, 15, -9)
 script = ExtResource("4_rxkg7")
-target = NodePath("../Player")
+target = NodePath("../Player/truck")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(-0.290702, 0, -0.956814, -0.676569, 0.707107, 0.205557, 0.676569, 0.707107, -0.205557, -3.49691e-07, -2.82843, -8.48528)

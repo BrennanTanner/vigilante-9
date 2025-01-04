@@ -21,12 +21,12 @@ void vertex() {
 void fragment() {
 	float near = linear_depth_projection(0.0, SCREEN_UV, INV_PROJECTION_MATRIX);
 	float far = linear_depth_projection(1.0, SCREEN_UV, INV_PROJECTION_MATRIX);
-	
+
 	float depth_raw = texture(depth_texture, SCREEN_UV).x;
 	float depth_linear = linear_depth(depth_raw, near, far);
-	
+
 	vec2 pixel_size = (1.0 / depth_linear) / vec2(textureSize(depth_texture, 0));
-	
+
 	float neighbor1 = linear_depth(textureLod(depth_texture, SCREEN_UV + vec2(pixel_size.x, pixel_size.y) * vec2(-1, 1),  0).r, near, far);
 	float neighbor2 = linear_depth(textureLod(depth_texture, SCREEN_UV + vec2(pixel_size.x, pixel_size.y) * vec2(0, 1),   0).r, near, far);
 	float neighbor3 = linear_depth(textureLod(depth_texture, SCREEN_UV + vec2(pixel_size.x, pixel_size.y) * vec2(1, 1),   0).r, near, far);
@@ -35,9 +35,9 @@ void fragment() {
 	float neighbor6 = linear_depth(textureLod(depth_texture, SCREEN_UV + vec2(pixel_size.x, pixel_size.y) * vec2(-1, -1), 0).r, near, far);
 	float neighbor7 = linear_depth(textureLod(depth_texture, SCREEN_UV + vec2(pixel_size.x, pixel_size.y) * vec2(0, -1),  0).r, near, far);
 	float neighbor8 = linear_depth(textureLod(depth_texture, SCREEN_UV + vec2(pixel_size.x, pixel_size.y) * vec2(-1, 1),  0).r, near, far);
-	
+
 	float max_dst = 0.040;
-	
+
 	float edge1 = step(max_dst, abs(neighbor1 - depth_linear));
 	float edge2 = step(max_dst, abs(neighbor2 - depth_linear));
 	float edge3 = step(max_dst, abs(neighbor3 - depth_linear));
@@ -46,10 +46,10 @@ void fragment() {
 	float edge6 = step(max_dst, abs(neighbor6 - depth_linear));
 	float edge7 = step(max_dst, abs(neighbor7 - depth_linear));
 	float edge8 = step(max_dst, abs(neighbor8 - depth_linear));
-	
+
 	float all_edges = edge1 + edge2 + edge3 + edge4 + edge5 + edge6 + edge7 + edge8;
 	float edges = step(0.5, all_edges);
-	
+
 	ALBEDO = outline_color;
 	ALPHA = edges;
 }
