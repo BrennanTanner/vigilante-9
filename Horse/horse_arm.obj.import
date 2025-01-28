@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c0ret462hbf06"
+path="res://.godot/imported/horse_arm.obj-ee95de75c70221dee2ad0dce26208105.mesh"
+
+[deps]
+
+files=["res://.godot/imported/horse_arm.obj-ee95de75c70221dee2ad0dce26208105.mesh"]
+
+source_file="res://Horse/horse_arm.obj"
+dest_files=["res://.godot/imported/horse_arm.obj-ee95de75c70221dee2ad0dce26208105.mesh", "res://.godot/imported/horse_arm.obj-ee95de75c70221dee2ad0dce26208105.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

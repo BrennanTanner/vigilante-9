@@ -1,0 +1,243 @@
+[gd_scene load_steps=56 format=3 uid="uid://b5hlh83vk445v"]
+
+[ext_resource type="Script" path="res://Scenes/TerrainTiles.gd" id="1_2h33n"]
+[ext_resource type="PackedScene" uid="uid://lcq8fa57rdkp" path="res://Scenes/camera.tscn" id="2_vinm4"]
+[ext_resource type="Script" path="res://Scenes/follow_entity.gd" id="3_pio35"]
+[ext_resource type="Shader" path="res://src/globalOutline.gdshader" id="4_3q5d6"]
+[ext_resource type="PackedScene" uid="uid://0uxogtw56mdy" path="res://Scenes/player.tscn" id="5_8xwj6"]
+[ext_resource type="PackedScene" uid="uid://yubj68jkn50o" path="res://world_3d/bannerTowerGreen.fbx" id="6_ejfa5"]
+[ext_resource type="PackedScene" uid="uid://dm01smb1qdpky" path="res://world_3d/bannerTowerRed.fbx" id="7_rcbwp"]
+[ext_resource type="PackedScene" uid="uid://c2f8o1lcas0i2" path="res://world_3d/barrierRed.fbx" id="8_jirvn"]
+[ext_resource type="PackedScene" uid="uid://cw8cbp220b7fc" path="res://world_3d/barrierWhite.fbx" id="9_2l8nv"]
+[ext_resource type="PackedScene" uid="uid://cx3di470r3nch" path="res://world_3d/overheadLights.fbx" id="10_m8nr4"]
+[ext_resource type="PackedScene" uid="uid://cna4vtpn4fm82" path="res://world_3d/overheadRound.fbx" id="11_e5i2l"]
+[ext_resource type="PackedScene" uid="uid://de6a1cr20lln1" path="res://world_3d/overheadRoundColored.fbx" id="12_y6sqw"]
+[ext_resource type="PackedScene" uid="uid://esptew2wst3q" path="res://world_3d/pitsGarage.fbx" id="13_kq8ge"]
+[ext_resource type="PackedScene" uid="uid://jbmh8ubfgqf0" path="res://world_3d/pitsGarageClosed.fbx" id="14_35xej"]
+[ext_resource type="PackedScene" uid="uid://dpo57p4w1emfx" path="res://world_3d/pitsGarageCorner.fbx" id="15_qhs6f"]
+[ext_resource type="PackedScene" uid="uid://cvjciv1bhrxln" path="res://world_3d/pitsOffice.fbx" id="16_ph8wn"]
+[ext_resource type="PackedScene" uid="uid://cwoamb0c65or1" path="res://world_3d/pitsOfficeCorner.fbx" id="17_2uyhx"]
+[ext_resource type="PackedScene" uid="uid://bb2fo4rubdqlb" path="res://world_3d/pitsOfficeRoof.fbx" id="18_udqfn"]
+[ext_resource type="PackedScene" uid="uid://cw73628kbwixp" path="res://world_3d/pylon.fbx" id="19_sqt4d"]
+[ext_resource type="PackedScene" uid="uid://clg2gtp6024qo" path="res://world_3d/rail.fbx" id="20_iymkc"]
+[ext_resource type="PackedScene" uid="uid://dh4tjcufrpguq" path="res://world_3d/railDouble.fbx" id="21_5217l"]
+[ext_resource type="PackedScene" uid="uid://mf5r4xksve3n" path="res://world_3d/tentClosed.fbx" id="22_1i4dt"]
+[ext_resource type="PackedScene" uid="uid://buf5isexnut76" path="res://world_3d/tent.fbx" id="23_3fsch"]
+[ext_resource type="PackedScene" uid="uid://bexvkckgyk3d4" path="res://world_3d/tentLong.fbx" id="24_cuep4"]
+[ext_resource type="PackedScene" uid="uid://c8i6yehhvr58j" path="res://world_3d/tentClosedLong.fbx" id="25_oqgvb"]
+[ext_resource type="PackedScene" uid="uid://caggqselk8uof" path="res://world_3d/tentRoof.fbx" id="26_lxj6r"]
+[ext_resource type="PackedScene" uid="uid://bya2oru7my3t7" path="res://world_3d/tentRoofDouble.fbx" id="27_5et3o"]
+[ext_resource type="PackedScene" uid="uid://borr6y7qlsord" path="res://world_3d/treeLarge.fbx" id="28_b5mu3"]
+[ext_resource type="PackedScene" uid="uid://kcchqamp0hxf" path="res://world_3d/treeSmall.fbx" id="29_7nh1j"]
+[ext_resource type="PackedScene" uid="uid://dlmyoa4wxs02d" path="res://world_3d/roadStraightLong.fbx" id="30_yxdgp"]
+[ext_resource type="PackedScene" uid="uid://b4qxo6dblov6a" path="res://world_3d/overhead.fbx" id="31_4wwym"]
+[ext_resource type="PackedScene" uid="uid://d0gco5u4g40lu" path="res://world_3d/lightPostModern.fbx" id="32_56xrl"]
+[ext_resource type="PackedScene" uid="uid://dquht0og50fah" path="res://world_3d/lightPost_exclusive.fbx" id="33_ls544"]
+[ext_resource type="PackedScene" uid="uid://cadthy5ujhojl" path="res://world_3d/lightPostLarge.fbx" id="34_flsku"]
+[ext_resource type="PackedScene" uid="uid://rgjutoqvk8qh" path="res://world_3d/grass.fbx" id="35_lom35"]
+[ext_resource type="PackedScene" uid="uid://cf37y0ifwdclg" path="res://world_3d/grandStandAwning.fbx" id="36_uxria"]
+[ext_resource type="PackedScene" uid="uid://bopct676iteyc" path="res://world_3d/grandStandCovered.fbx" id="37_qedrx"]
+[ext_resource type="PackedScene" uid="uid://dy7w7c377dkst" path="res://world_3d/flagTankco.fbx" id="38_7uju6"]
+[ext_resource type="PackedScene" uid="uid://cfvn5tytqwbde" path="res://world_3d/grandStand.fbx" id="39_d1kht"]
+[ext_resource type="PackedScene" uid="uid://cht1b7d0urjv8" path="res://world_3d/flagRed.fbx" id="40_hjdb3"]
+[ext_resource type="PackedScene" uid="uid://ds5ftn05msju0" path="res://world_3d/flagGreen.fbx" id="41_ipmnk"]
+[ext_resource type="PackedScene" uid="uid://jy4mek3h0v1v" path="res://world_3d/flagCheckersSmall.fbx" id="42_r6dtp"]
+[ext_resource type="PackedScene" uid="uid://dmys8rra4bgp8" path="res://world_3d/flagCheckers.fbx" id="43_77e6f"]
+[ext_resource type="PackedScene" uid="uid://ds34enieqoknv" path="res://world_3d/fenceStraight.fbx" id="44_fctbx"]
+[ext_resource type="PackedScene" uid="uid://kfaquyqnaj6v" path="res://world_3d/fenceCurved.fbx" id="45_y3fk2"]
+[ext_resource type="PackedScene" uid="uid://b7vs8xon8vl5i" path="res://world_3d/camera_exclusive.fbx" id="46_lrjpe"]
+[ext_resource type="PackedScene" uid="uid://b3h7ve8s45y84" path="res://world_3d/billboardLower.fbx" id="47_pu6xn"]
+[ext_resource type="PackedScene" uid="uid://cynbi1whdo3l0" path="res://world_3d/roadStraightArrow.fbx" id="48_sken7"]
+[ext_resource type="PackedScene" uid="uid://bn2ubyfyoc7vf" path="res://world_3d/roadStart.fbx" id="49_k58ns"]
+[ext_resource type="PackedScene" uid="uid://dp2jics24j1l" path="res://world_3d/roadPitStraight.fbx" id="50_7luju"]
+[ext_resource type="PackedScene" uid="uid://bbwqy224nf7jx" path="res://world_3d/roadStraight.fbx" id="51_1y5c3"]
+[ext_resource type="PackedScene" uid="uid://cafsj6blnums8" path="res://world_3d/roadPitStraightLong.fbx" id="52_2fj3w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mmtgu"]
+albedo_color = Color(0.813618, 0.567706, 0.291506, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_utuj4"]
+render_priority = 0
+shader = ExtResource("4_3q5d6")
+shader_parameter/outlineColor = Color(0, 0, 0, 0.78)
+shader_parameter/depth_threshold = 0.025
+shader_parameter/normal_threshold = 0.5
+shader_parameter/normal_smoothing = 0.25
+shader_parameter/max_thickness = 1.3
+shader_parameter/min_thickness = 0.5
+shader_parameter/max_distance = 75.0
+shader_parameter/min_distance = 2.0
+shader_parameter/grazing_fresnel_power = 5.0
+shader_parameter/grazing_angle_mask_power = 1.0
+shader_parameter/grazing_angle_modulation_factor = 50.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_1jsip"]
+material = SubResource("ShaderMaterial_utuj4")
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="World" type="Node3D"]
+
+[node name="Terrain" type="Node3D" parent="."]
+script = ExtResource("1_2h33n")
+chunk_size = 100.0
+terrain_material = SubResource("StandardMaterial3D_mmtgu")
+
+[node name="Camera3D" parent="." instance=ExtResource("2_vinm4")]
+transform = Transform3D(-1, -6.18173e-08, 6.18173e-08, 0, 0.707107, 0.707107, -8.74228e-08, 0.707107, -0.707107, 0, 12.278, -6.5782)
+script = ExtResource("3_pio35")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(-0.290702, 0, -0.956814, -0.676569, 0.707107, 0.205557, 0.676569, 0.707107, -0.205557, -3.49691e-07, -2.82843, -8.48528)
+mesh = SubResource("QuadMesh_1jsip")
+skeleton = NodePath("../..")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.324295, -0.50608, 0.799197, -0.305142, 0.855659, 0.418015, -0.895389, -0.108308, -0.431913, 3.05484, 3.38344, 0)
+
+[node name="Player" parent="." instance=ExtResource("5_8xwj6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.973438, 0)
+
+[node name="bannerTowerGreen" parent="." instance=ExtResource("6_ejfa5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45869, 0, 5.91805)
+
+[node name="bannerTowerRed" parent="." instance=ExtResource("7_rcbwp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.80947, 0, -7.2425)
+
+[node name="barrierRed" parent="." instance=ExtResource("8_jirvn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8955, 0, 0.153613)
+
+[node name="barrierWhite" parent="." instance=ExtResource("9_2l8nv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.153, 0, 1.85598)
+
+[node name="overheadLights" parent="." instance=ExtResource("10_m8nr4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.4043, 0, -3.98891)
+
+[node name="overheadRound" parent="." instance=ExtResource("11_e5i2l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.0695, 0, -22.6894)
+
+[node name="overheadRoundColored" parent="." instance=ExtResource("12_y6sqw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.4485, 0, -9.96605)
+
+[node name="pitsGarage" parent="." instance=ExtResource("13_kq8ge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.026, 0, 6.78967)
+
+[node name="pitsGarageClosed" parent="." instance=ExtResource("14_35xej")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.9662, 0, 7.50618)
+
+[node name="pitsGarageCorner" parent="." instance=ExtResource("15_qhs6f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.2145, -11.7703, 19.6303)
+
+[node name="pitsOffice" parent="." instance=ExtResource("16_ph8wn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.8156, 0, -12.4184)
+
+[node name="pitsOfficeCorner" parent="." instance=ExtResource("17_2uyhx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.0292, 0, -10.1281)
+
+[node name="pitsOfficeRoof" parent="." instance=ExtResource("18_udqfn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.0599, 0, -39.5611)
+
+[node name="pylon" parent="." instance=ExtResource("19_sqt4d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.1775, 0, -40.5492)
+
+[node name="rail" parent="." instance=ExtResource("20_iymkc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.7988, 0, -47.7458)
+
+[node name="railDouble" parent="." instance=ExtResource("21_5217l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5311, 0, -51.7312)
+
+[node name="tentClosed" parent="." instance=ExtResource("22_1i4dt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.8386, 0, -53.0686)
+
+[node name="tent" parent="." instance=ExtResource("23_3fsch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.9799, 0, -65.7647)
+
+[node name="tentLong" parent="." instance=ExtResource("24_cuep4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.5225, -1.90735e-06, -62.4011)
+
+[node name="tentClosedLong" parent="." instance=ExtResource("25_oqgvb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101.181, 0, 17.9495)
+
+[node name="tentRoof" parent="." instance=ExtResource("26_lxj6r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.0018, 0, 0.972786)
+
+[node name="tentRoofDouble" parent="." instance=ExtResource("27_5et3o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -86.0649, 0, -1.0909)
+
+[node name="treeLarge" parent="." instance=ExtResource("28_b5mu3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -104.402, 1.90735e-06, -6.9052)
+
+[node name="treeSmall" parent="." instance=ExtResource("29_7nh1j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -97.4866, 0, -9.21104)
+
+[node name="roadStraightLong" parent="." instance=ExtResource("30_yxdgp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.291, 0, -19.495)
+
+[node name="overhead" parent="." instance=ExtResource("31_4wwym")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -89.5018, 0, -24.0293)
+
+[node name="lightPostModern" parent="." instance=ExtResource("32_56xrl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.1207, 0, -21.9838)
+
+[node name="lightPost_exclusive" parent="." instance=ExtResource("33_ls544")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67.6689, 0, -19.4068)
+
+[node name="lightPostLarge" parent="." instance=ExtResource("34_flsku")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.0106, 0, -16.8139)
+
+[node name="grass" parent="." instance=ExtResource("35_lom35")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -67.504, 0, -34.6283)
+
+[node name="grandStandAwning" parent="." instance=ExtResource("36_uxria")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -86.2725, -1.90735e-06, -40.5605)
+
+[node name="grandStandCovered" parent="." instance=ExtResource("37_qedrx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99.6841, 1.90735e-06, -42.1146)
+
+[node name="flagTankco" parent="." instance=ExtResource("38_7uju6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.9092, 0, -28.7699)
+
+[node name="grandStand" parent="." instance=ExtResource("39_d1kht")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -75.6946, 0, -41.9094)
+
+[node name="flagRed" parent="." instance=ExtResource("40_hjdb3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.7082, 0, -29.711)
+
+[node name="flagGreen" parent="." instance=ExtResource("41_ipmnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.8992, 0, -32.177)
+
+[node name="flagCheckersSmall" parent="." instance=ExtResource("42_r6dtp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62.4869, 0, -27.0077)
+
+[node name="flagCheckers" parent="." instance=ExtResource("43_77e6f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -58.4693, 0, -25.8949)
+
+[node name="fenceStraight" parent="." instance=ExtResource("44_fctbx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60.7392, 0, -9.49732)
+
+[node name="fenceCurved" parent="." instance=ExtResource("45_y3fk2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.0423, 0, -7.25278)
+
+[node name="camera_exclusive" parent="." instance=ExtResource("46_lrjpe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.2385, -1.90735e-06, -10.1292)
+
+[node name="billboardLower" parent="." instance=ExtResource("47_pu6xn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.8575, 0, -10.0781)
+
+[node name="roadStraightArrow" parent="." instance=ExtResource("48_sken7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.7423, 0, -21.437)
+
+[node name="roadStart" parent="." instance=ExtResource("49_k58ns")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45.5312, 0, -30.1459)
+
+[node name="roadPitStraight" parent="." instance=ExtResource("50_7luju")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.085, 0, -35.6183)
+
+[node name="roadStraight" parent="." instance=ExtResource("51_1y5c3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.9479, 0, -34.6466)
+
+[node name="roadPitStraightLong" parent="." instance=ExtResource("52_2fj3w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.6917, 0, -20.5085)
+
+[node name="roadStraightLong2" parent="." instance=ExtResource("30_yxdgp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.21298, -2.86886, -0.758751)

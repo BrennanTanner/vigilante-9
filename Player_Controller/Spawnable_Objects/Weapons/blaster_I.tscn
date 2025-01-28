@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvbk5bxenpxey"]
+
+[ext_resource type="Script" path="res://Player_Controller/scripts/Weapon_State_Machine/PickUp Weapons/Weapon_Pick_Up.gd" id="1_7bvbn"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_g0cag"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mbxu7"]
+
+[node name="blasterI" type="RigidBody3D"]
+collision_layer = 8
+collision_mask = 13
+script = ExtResource("1_7bvbn")
+
+[node name="blasterD2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19922, 0.0684505, -0.165722)
+mesh = SubResource("ArrayMesh_g0cag")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, -0.15)
+shape = SubResource("BoxShape3D_mbxu7")

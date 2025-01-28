@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnw7i53twfjs0"]
+
+[ext_resource type="Script" path="res://src/Bullet/Bullet.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://cl66lojg3pq3w" path="res://src/BulletSpark/BulletSpark.tscn" id="2_r74na"]
+[ext_resource type="PackedScene" uid="uid://javv3h067rio" path="res://src/BulletGlow/BulletGlow.tscn" id="3_c2c0w"]
+
+[sub_resource type="SphereMesh" id="1"]
+radius = 0.006
+height = 0.05
+
+[node name="Bullet" type="Node3D"]
+script = ExtResource("1")
+bullet_spark_scene = ExtResource("2_r74na")
+bullet_glow_scene = ExtResource("3_c2c0w")
+
+[node name="Shell" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -1.19209e-07, 0)
+mesh = SubResource("1")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, 0)
+collision_mask = 3
+debug_shape_custom_color = Color(1, 0, 0, 1)

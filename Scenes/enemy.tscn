@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0mhhtw18xwcn"]
+
+[ext_resource type="Script" path="res://Scenes/enemy.gd" id="1_fwdxw"]
+[ext_resource type="PackedScene" uid="uid://bbg1osfxafvgs" path="res://Horse/Horse.tscn" id="1_j68kh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h3if6"]
+size = Vector3(1, 1, 2)
+
+[node name="Enemy" type="RigidBody3D"]
+script = ExtResource("1_fwdxw")
+
+[node name="body" parent="." instance=ExtResource("1_j68kh")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_h3if6")
+
+[node name="down_ray" type="RayCast3D" parent="."]
+target_position = Vector3(0, -0.3, 0)
+hit_from_inside = true
