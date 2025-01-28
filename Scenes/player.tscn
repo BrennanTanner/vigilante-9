@@ -35,10 +35,10 @@ car_entity = NodePath("car")
 
 [node name="horse" parent="." instance=ExtResource("2_irir1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0841153, 0.120252, 0.868267)
-visible = false
 
 [node name="car" parent="." instance=ExtResource("3_v310b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9)
+visible = false
 
 [node name="Chasis" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.3)
