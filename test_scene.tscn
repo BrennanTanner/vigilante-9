@@ -1,0 +1,173 @@
+[gd_scene load_steps=24 format=3 uid="uid://dov4h4ifh60v7"]
+
+[ext_resource type="Texture2D" uid="uid://0wof2ikeolop" path="res://assets/texture_01.png" id="1_tbqoc"]
+[ext_resource type="Script" uid="uid://bjenl5h3t2m30" path="res://Camera3D.gd" id="3_opq1w"]
+[ext_resource type="PackedScene" uid="uid://c2wccr3p0sk58" path="res://gun.tscn" id="4_6vq5s"]
+[ext_resource type="PackedScene" uid="uid://wp0un6jcxgck" path="res://collectible.tscn" id="5_owug8"]
+[ext_resource type="PackedScene" uid="uid://ch7c6peoj3tvy" path="res://shop.tscn" id="7_epgdl"]
+[ext_resource type="PackedScene" uid="uid://b7e3n3xsqrorv" path="res://gun2.tscn" id="8_0dkfu"]
+[ext_resource type="PackedScene" uid="uid://cvh0fwg53wpus" path="res://car.tscn" id="8_2h328"]
+[ext_resource type="PackedScene" uid="uid://ddeo5omto3ehi" path="res://enemy-rigid.tscn" id="9_njel3"]
+[ext_resource type="Shader" uid="uid://b1twbdp1050aj" path="res://Water.gdshader" id="10_rpuu0"]
+[ext_resource type="PackedScene" uid="uid://crq7wskyv8acn" path="res://tile_manager.tscn" id="10_vr1i5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_74a4f"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_pcewp"]
+sky_material = SubResource("ProceduralSkyMaterial_74a4f")
+
+[sub_resource type="Environment" id="Environment_pk4ow"]
+background_mode = 2
+sky = SubResource("Sky_pcewp")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pj28r"]
+albedo_texture = ExtResource("1_tbqoc")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_jugg0"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_pj28r")
+size = Vector3(10, 2, 50)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_njel3"]
+points = PackedVector3Array(5, 1, 25, 5, -1, 25, 5, 1, -25, -5, 1, 25, -5, -1, 25, 5, -1, -25, -5, 1, -25, -5, -1, -25)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vr1i5"]
+noise_type = 5
+frequency = 0.05
+fractal_weighted_strength = 1.0
+cellular_jitter = 0.7
+cellular_return_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rpuu0"]
+width = 200
+height = 200
+seamless = true
+noise = SubResource("FastNoiseLite_vr1i5")
+
+[sub_resource type="Curve" id="Curve_rpuu0"]
+_data = [Vector2(0.0114155, 0.989934), 0.0, -9.36876, 0, 0, Vector2(0.913242, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.0261325), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_4gito"]
+curve = SubResource("Curve_rpuu0")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oo8pe"]
+render_priority = 0
+shader = ExtResource("10_rpuu0")
+shader_parameter/absorption_color = Color(1, 0.35, 0, 1)
+shader_parameter/fresnel_radius = 2.0
+shader_parameter/fresnel_color = Color(0, 0.57, 0.72, 1)
+shader_parameter/roughness = 0.15
+shader_parameter/specular = 0.25
+shader_parameter/depth_distance = 25.0
+shader_parameter/beers_law = 4.5
+shader_parameter/displacement_strength = 0.3
+shader_parameter/displacement_scroll_speed = 0.1
+shader_parameter/displacement_scroll_offset = Vector2(-0.2, 0.3)
+shader_parameter/displacement_scale_offset = 0.5
+shader_parameter/displacement_scale = Vector2(0.04, 0.04)
+shader_parameter/edge_thickness = 0.5
+shader_parameter/edge_speed = 0.35
+shader_parameter/edge_noise_scale = Vector2(0.2, 0.2)
+shader_parameter/edge_noise = SubResource("NoiseTexture2D_rpuu0")
+shader_parameter/edge_ramp = SubResource("CurveTexture_4gito")
+shader_parameter/influence_size = 1.0
+shader_parameter/player_wave_frequenzy = 10.0
+shader_parameter/player_wave_speed = 5.0
+shader_parameter/refraction_strength = 1.25
+shader_parameter/normal_map_strength = 1.0
+shader_parameter/scroll_speed = 0.3
+shader_parameter/scroll_offset = Vector2(0.1, -0.3)
+shader_parameter/scale_offset = 0.5
+shader_parameter/normal_map_scale = Vector2(0.1, 0.1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4gito"]
+material = SubResource("ShaderMaterial_oo8pe")
+size = Vector2(500, 500)
+
+[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_vr1i5"]
+
+[node name="TestScene" type="Node3D"]
+
+[node name="GridMap" type="GridMap" parent="."]
+cell_size = Vector3(100, 1, 100)
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pk4ow")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20.7279, 21.7562)
+script = ExtResource("3_opq1w")
+target = NodePath("../VehicleBody3D")
+
+[node name="collectible" parent="." instance=ExtResource("5_owug8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.78277, 1, -14.4032)
+
+[node name="Control" parent="." instance=ExtResource("7_epgdl")]
+turret_gun = ExtResource("4_6vq5s")
+grenade_gun = ExtResource("8_0dkfu")
+
+[node name="VehicleBody3D" parent="." groups=["player"] instance=ExtResource("8_2h328")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.28665, 4.49107, 0.195471)
+collision_layer = 5
+base_engine_power = 300.0
+starting_gun = ExtResource("4_6vq5s")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 59.0
+offset_top = 44.0
+offset_right = 202.0
+offset_bottom = 67.0
+text = "kjk"
+
+[node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("9_njel3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.4235, 3.03115, -56.5203)
+
+[node name="Enemy2" parent="." groups=["enemy"] instance=ExtResource("9_njel3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.7362, 5.37645, 31.817)
+
+[node name="Enemy3" parent="." groups=["enemy"] instance=ExtResource("9_njel3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.4235, 3.52121, 13.523)
+
+[node name="Enemy5" parent="." groups=["enemy"] instance=ExtResource("9_njel3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74.5765, 7.38392, -9.477)
+
+[node name="Enemy4" parent="." groups=["enemy"] instance=ExtResource("9_njel3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83.5765, 9.46063, 3.523)
+
+[node name="Enemy6" parent="." groups=["enemy"] instance=ExtResource("9_njel3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -88.5765, 7.46082, 13.523)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.939693, -0.34202, 0, 0.34202, 0.939693, 57.3286, -0.993668, 9.01856)
+mesh = SubResource("BoxMesh_jugg0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_njel3")
+
+[node name="TileManager" parent="." node_paths=PackedStringArray("player") instance=ExtResource("10_vr1i5")]
+player = NodePath("../VehicleBody3D")
+generation_radius = 1
+unload_distance = 1
+
+[node name="Ocean" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+visible = false
+mesh = SubResource("PlaneMesh_4gito")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("HeightMapShape3D_vr1i5")

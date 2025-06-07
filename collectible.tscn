@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://wp0un6jcxgck"]
+
+[ext_resource type="Texture2D" uid="uid://pxpipolidxt6" path="res://icon.svg" id="1_6luff"]
+[ext_resource type="Script" uid="uid://7g8octpntn6r" path="res://collectible.gd" id="1_m2itj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_77jsk"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[node name="Collectible" type="RigidBody3D"]
+collision_layer = 0
+collision_mask = 4
+mass = 0.1
+script = ExtResource("1_m2itj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_77jsk")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+billboard = 1
+texture = ExtResource("1_6luff")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

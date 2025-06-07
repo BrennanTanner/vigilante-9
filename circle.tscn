@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj3ube7obr2og"]
+
+[ext_resource type="Texture2D" uid="uid://b4r0jufu6dr40" path="res://assets/sm-circle.png" id="1_6ok3b"]
+
+[node name="Sprite3D2" type="Sprite3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.983969, 0, 0)
+pixel_size = 0.001
+billboard = 1
+texture = ExtResource("1_6ok3b")

@@ -1,0 +1,126 @@
+[gd_scene load_steps=6 format=3 uid="uid://ch7c6peoj3tvy"]
+
+[ext_resource type="Script" uid="uid://doa06jj0il0c1" path="res://shop.gd" id="1_7oipg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_at3sy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rseob"]
+bg_color = Color(0.884099, 0.884099, 0.884099, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.231373)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6u5ch"]
+bg_color = Color(0.676879, 0.676879, 0.676879, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.231373)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xcldm"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.231373)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_7oipg")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 136.0
+offset_right = 131.0
+offset_bottom = 159.0
+
+[node name="Quit" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 15.0
+offset_top = 19.0
+offset_right = 63.0
+offset_bottom = 66.0
+tooltip_text = "Increases Weight"
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.366569, 0.298845, 0.118097, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_at3sy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rseob")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6u5ch")
+theme_override_styles/normal = SubResource("StyleBoxFlat_xcldm")
+text = "X"
+
+[node name="Turret" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 87.0
+offset_top = 56.0
+offset_right = 295.0
+offset_bottom = 124.0
+tooltip_text = "Increases Weight"
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.366569, 0.298845, 0.118097, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_at3sy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rseob")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6u5ch")
+theme_override_styles/normal = SubResource("StyleBoxFlat_xcldm")
+text = "Turret"
+
+[node name="LevelUp" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 918.0
+offset_top = 22.0
+offset_right = 1126.0
+offset_bottom = 90.0
+tooltip_text = "Increases speed"
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.366569, 0.298845, 0.118097, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_at3sy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rseob")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6u5ch")
+theme_override_styles/normal = SubResource("StyleBoxFlat_xcldm")
+text = "Lvl up"
+
+[node name="Grenade" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 91.0
+offset_top = 136.0
+offset_right = 299.0
+offset_bottom = 204.0
+tooltip_text = "Increases speed"
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.366569, 0.298845, 0.118097, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_at3sy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rseob")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6u5ch")
+theme_override_styles/normal = SubResource("StyleBoxFlat_xcldm")
+text = "Grenade"
+
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Turret" to="." method="_on_turret_pressed"]
+[connection signal="pressed" from="LevelUp" to="." method="_on_level_up_pressed"]
+[connection signal="pressed" from="Grenade" to="." method="_on_grenade_pressed"]

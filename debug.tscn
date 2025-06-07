@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b2ldnf4xkbdda"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 115.0
+offset_top = 10.0
+offset_right = 292.0
+offset_bottom = 26.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="HSlider"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

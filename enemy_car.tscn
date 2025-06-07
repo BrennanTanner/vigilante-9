@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://br8pphj16xu7b"]
-
-[ext_resource type="PackedScene" uid="uid://b1xxkxjkx2hjl" path="res://Cars/police.fbx" id="1_xifav"]
-
-[node name="RigidBody3D" type="RigidBody3D"]
-
-[node name="police" parent="." instance=ExtResource("1_xifav")]

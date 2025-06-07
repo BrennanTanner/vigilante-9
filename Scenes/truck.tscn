@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://n538anojvtjn"]
-
-[ext_resource type="PackedScene" uid="uid://i3702s16k8e4" path="res://Cars/truck.glb" id="1_needd"]
-
-[node name="truck" instance=ExtResource("1_needd")]

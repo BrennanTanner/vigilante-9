@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://qid0rm1226wq"]
+
+[ext_resource type="PackedScene" uid="uid://bj3ube7obr2og" path="res://circle.tscn" id="1_3thr1"]
+
+[node name="Sprite3D2" type="Node3D"]
+
+[node name="PtGreen" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0.08, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+pixel_size = 0.003
+
+[node name="PtGreen3" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+pixel_size = 0.002
+
+[node name="PtWhite" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, 0.1, 0.03)
+
+[node name="PtBlack" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, 0.1, 0.040934)
+modulate = Color(0, 0, 0, 1)
+pixel_size = 0.0002
+
+[node name="PtBlack2" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, 0.1, 0.041)
+modulate = Color(0, 0, 0, 1)
+pixel_size = 0.0002
+
+[node name="PtWhite2" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, 0.1, 0.03)
+
+[node name="PtGreen4" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+pixel_size = 0.002
+
+[node name="PtGreen5" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+pixel_size = 0.002
+
+[node name="PtGreen6" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, 0.08, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+pixel_size = 0.003
+
+[node name="PtGreen7" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, 0.05)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+
+[node name="PtGreen8" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, 0.06)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+
+[node name="PtGreen9" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, 0.07)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+
+[node name="PtGreen10" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0.12, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+
+[node name="PtGreen13" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.13, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+
+[node name="PtGreen11" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.13, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)
+
+[node name="PtGreen12" parent="." instance=ExtResource("1_3thr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0.12, 0)
+modulate = Color(0.231373, 0.627451, 0.156863, 1)

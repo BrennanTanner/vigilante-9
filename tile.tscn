@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=4 uid="uid://cleo0ujja2w1r"]
+
+[ext_resource type="Script" uid="uid://c161kaapt32fy" path="res://tile.gd" id="1_vx4y2"]
+[ext_resource type="Shader" uid="uid://b1twbdp1050aj" path="res://Water.gdshader" id="2_vx4y2"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yhqha"]
+points = PackedVector3Array(-57.8, 0, -100, -115.4, 0, 0, -57.8, 1, -100, 57.8, 0, -100, -115.4, 1, 0, -57.8, 0, 100, 57.8, 1, -100, 115.4, 0, 0, -57.8, 1, 100, 57.8, 0, 100, 115.4, 1, 0, 57.8, 1, 100)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vx4y2"]
+render_priority = 0
+shader = ExtResource("2_vx4y2")
+shader_parameter/absorption_color = Color(1, 0.35, 0, 1)
+shader_parameter/fresnel_radius = 2.0
+shader_parameter/fresnel_color = Color(0, 0.57, 0.72, 1)
+shader_parameter/roughness = 0.15
+shader_parameter/specular = 0.25
+shader_parameter/depth_distance = 25.0
+shader_parameter/beers_law = 4.5
+shader_parameter/displacement_strength = 0.3
+shader_parameter/displacement_scroll_speed = 0.1
+shader_parameter/displacement_scroll_offset = Vector2(-0.2, 0.3)
+shader_parameter/displacement_scale_offset = 0.5
+shader_parameter/displacement_scale = Vector2(0.04, 0.04)
+shader_parameter/edge_thickness = 0.3
+shader_parameter/edge_speed = 0.35
+shader_parameter/edge_noise_scale = Vector2(0.4, 0.4)
+shader_parameter/influence_size = 1.0
+shader_parameter/player_wave_frequenzy = 10.0
+shader_parameter/player_wave_speed = 5.0
+shader_parameter/refraction_strength = 1.25
+shader_parameter/normal_map_strength = 1.0
+shader_parameter/scroll_speed = 0.3
+shader_parameter/scroll_offset = Vector2(0.1, -0.3)
+shader_parameter/scale_offset = 0.5
+shader_parameter/normal_map_scale = Vector2(0.1, 0.1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_xo0us"]
+_surfaces = [{
+"aabb": AABB(-0.577351, 0, -0.5, 1.1547, 0.25, 1),
+"format": 34896613377,
+"index_count": 60,
+"index_data": PackedByteArray("BQAGAAgABwAGAAUACAAGAAcABQADAAcACAAJAAUAAwAFAAkABwADAAoACgADAAkACgALAAcACAAHAAsACgAJAAEACQAIAAIAAgABAAkAAgAIAAsAAQAAAAoAAAABAAIACwAKAAAAAgAEAAAAAAAEAAsACwAEAAIA"),
+"lods": [0.234516, PackedByteArray("AAABAAIAAQAAAAMAAgAEAAAABAADAAAAAgABAAUAAwAFAAEAAgAGAAQABQAGAAIAAwAEAAcABQADAAcABgAHAAQABwAGAAUA")],
+"name": "custom1(Clone)",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray("/7///wAAAAD/P///AAAAAP8/AAAAAAAA/7//////AAD/vwAAAAAAAP8////+/wAA/z8AAP7/AAD/vwAA//8AAAAAAAD/fwAAAAD///9/AAD//////38AAP//AAD/fwAA")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_tfor0"]
+resource_name = "unit_hex_mesh"
+_surfaces = [{
+"aabb": AABB(-0.577351, 0, -0.5, 1.1547, 0.25, 1),
+"attribute_data": PackedByteArray("/z//v/+//7//v1TV/z9U1f8/qar/v6mq/7////8////Y7v+/2O5U1SYRVNUmEf+/JhH/v9juVNUmEVTV2O7/v/8/////P6mq/7////+/qar/v1TV/z9U1f8//7//v/+//39U1f9//7///1TVAABU1f9//7//f1TV/3//v/9/VNX/f1TV/3//v///VNUAAFTV"),
+"format": 34896613399,
+"index_count": 60,
+"index_data": PackedByteArray("CAAJABgAGAAZAAgAAAABAAIAAgADAAAABAAFABoAGgAbAAQAGgAGABsABgAHABsAHAAdAAoACgALABwAHgAfAA4ADgAMAB4ADwANACAAIAAhAA8AIgASABAAEAAjACIAIwATACIAIwARABMAFAAVABYAFgAXABQA"),
+"lods": [0.234516, PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACgALAAgADAANAA4ADQAMAA8AEAARABIAEQATABIAFAAVABYAFgAXABQA")],
+"material": SubResource("ShaderMaterial_vx4y2"),
+"name": "custom1(Clone)",
+"primitive": 3,
+"uv_scale": Vector4(1.1547, 3, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("/7///wAA////P///AAD///8/AAAAAP///78AAAAA////P///AAD/v/+///8AAP+//7///////7//P////v//v/8////+/6qq/z8AAP7/qqr/PwAAAABU1f8///8AAFTV/7//////qar/vwAAAABU1f+/AAD//6mq/7///wAAVNX/PwAAAAD/v/8/AAD+//+//78AAAAA/7//vwAA////v/+/AAD//wCA/z8AAP7/AID/P////v8AgP+//////wCAAAAAAP9/qqoAAP///3+qqv//////f/+/AAD///9//78AAP///39U1QAAAAD/f1TV//////9/qar//wAA/3+pqv//AAD/f1TV//////9/VNX//wAA/3//vwAAAAD/f/+//3////9/////f////3///////3////9/////f////3//f////3////9/////f////38AAP9/AAD/fwAA/38AAAAA/38AAP9/AAD/fwAA/3//f////3////9/////f////3////9///////9/////f/9/////f////38AAP9/AAD/fwAA/38AAAAA/38AAP9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_xo0us")
+
+[node name="tile" type="StaticBody3D"]
+script = ExtResource("1_vx4y2")
+
+[node name="collision" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_yhqha")
+debug_color = Color(0, 0.6, 0.701961, 1)
+
+[node name="mesh" type="MeshInstance3D" parent="collision"]
+transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0.75, 0)
+mesh = SubResource("ArrayMesh_tfor0")
+skeleton = NodePath("")

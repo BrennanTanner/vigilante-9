@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://tpikhwslxans"]
+
+[ext_resource type="PackedScene" uid="uid://cpq20m4yd3cqj" path="res://assets/Nebula - Low poly car pack/Meshes/Vehicles/Drift.fbx" id="1_k7k50"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Drift" parent="." instance=ExtResource("1_k7k50")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.525779, 0, -0.367471)

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dn8jx4bvqwd6i"]
+
+[ext_resource type="PackedScene" uid="uid://cpq20m4yd3cqj" path="res://assets/Nebula - Low poly car pack/Meshes/Vehicles/Drift.fbx" id="1_i5mi2"]
+[ext_resource type="Texture2D" uid="uid://cxckgiy3f8bnu" path="res://assets/Nebula - Low poly car pack/Textures/Pastel/DualColor/CarsGreenDual.tres" id="2_hn2f4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wgp81"]
+albedo_texture = ExtResource("2_hn2f4")
+metallic = 0.93
+metallic_specular = 0.96
+
+[node name="Drift" instance=ExtResource("1_i5mi2")]
+
+[node name="Drift" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_wgp81")

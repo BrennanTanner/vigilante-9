@@ -1,0 +1,636 @@
+[gd_scene load_steps=18 format=3 uid="uid://tgjnevoq5p1m"]
+
+[ext_resource type="PackedScene" uid="uid://dignhueauldwq" path="res://terrain_manager.tscn" id="1_kt4va"]
+[ext_resource type="Texture2D" uid="uid://0wof2ikeolop" path="res://assets/texture_01.png" id="2_n85oi"]
+[ext_resource type="Script" path="res://Camera3D.gd" id="3_jiva7"]
+[ext_resource type="PackedScene" uid="uid://cvh0fwg53wpus" path="res://car.tscn" id="4_jl63w"]
+[ext_resource type="PackedScene" uid="uid://c2wccr3p0sk58" path="res://gun.tscn" id="5_0x2xg"]
+[ext_resource type="Texture2D" uid="uid://bsrlt1yqc2nrc" path="res://assets/Nebula - Low poly car pack/Textures/Pastel/DualColor/CarsWhiteDual.tres" id="6_pbj1l"]
+[ext_resource type="PackedScene" uid="uid://ddeo5omto3ehi" path="res://enemy-rigid.tscn" id="6_wcojn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_74a4f"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_pcewp"]
+sky_material = SubResource("ProceduralSkyMaterial_74a4f")
+
+[sub_resource type="Environment" id="Environment_pk4ow"]
+background_mode = 2
+sky = SubResource("Sky_pcewp")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5fxfa"]
+albedo_color = Color(0.525468, 0.366732, 0.162681, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pj28r"]
+albedo_texture = ExtResource("2_n85oi")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_jugg0"]
+material = SubResource("StandardMaterial3D_pj28r")
+size = Vector3(4, 2, 8)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_md76x"]
+data = PackedVector3Array(-2, 1, 4, 2, 1, 4, -2, -1, 4, 2, 1, 4, 2, -1, 4, -2, -1, 4, 2, 1, -4, -2, 1, -4, 2, -1, -4, -2, 1, -4, -2, -1, -4, 2, -1, -4, 2, 1, 4, 2, 1, -4, 2, -1, 4, 2, 1, -4, 2, -1, -4, 2, -1, 4, -2, 1, -4, -2, 1, 4, -2, -1, -4, -2, 1, 4, -2, -1, 4, -2, -1, -4, 2, 1, 4, -2, 1, 4, 2, 1, -4, -2, 1, 4, -2, 1, -4, 2, 1, -4, -2, -1, 4, 2, -1, 4, -2, -1, -4, 2, -1, 4, 2, -1, -4, -2, -1, -4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2c0og"]
+albedo_texture = ExtResource("6_pbj1l")
+
+[sub_resource type="BoxMesh" id="BoxMesh_t3pld"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_smw1a"]
+
+[node name="TestScene" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pk4ow")
+
+[node name="TerrainManager" parent="." instance=ExtResource("1_kt4va")]
+terrain_material = SubResource("StandardMaterial3D_5fxfa")
+
+[node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 8.14446, 6.141)
+current = true
+script = ExtResource("3_jiva7")
+target = NodePath("../Car")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.969923, -0.243412, 0, 0.243412, 0.969923, 13, 0, 0)
+mesh = SubResource("BoxMesh_jugg0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_md76x")
+
+[node name="Car" parent="." groups=["player"] instance=ExtResource("4_jl63w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111084, 0.0276403, -0.00952339)
+collision_layer = 14
+collision_mask = 9
+acceleration = 40.0
+turn_speed = 0.34
+body_tilt = 45
+starting_gun = ExtResource("5_0x2xg")
+
+[node name="Drift" parent="Car/CarMesh" index="3"]
+material_override = SubResource("StandardMaterial3D_2c0og")
+
+[node name="block" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.96791, 1.03303, 8.48522)
+mass = 0.002
+gravity_scale = 0.1
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="block"]
+mesh = SubResource("BoxMesh_t3pld")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="block"]
+shape = SubResource("BoxShape3D_smw1a")
+
+[node name="RigidBody3D" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -7.2232)
+
+[node name="RigidBody3D2" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -7.2232)
+
+[node name="RigidBody3D3" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -7.2232)
+
+[node name="RigidBody3D5" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -7.2232)
+
+[node name="RigidBody3D4" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -7.2232)
+
+[node name="RigidBody3D6" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -7.2232)
+
+[node name="RigidBody3D7" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -7.2232)
+
+[node name="RigidBody3D8" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -7.2232)
+
+[node name="RigidBody3D9" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -7.2232)
+
+[node name="RigidBody3D10" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -7.2232)
+
+[node name="RigidBody3D11" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -11.733)
+
+[node name="RigidBody3D12" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -11.733)
+
+[node name="RigidBody3D13" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -11.733)
+
+[node name="RigidBody3D14" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -11.733)
+
+[node name="RigidBody3D15" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -11.733)
+
+[node name="RigidBody3D16" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -11.733)
+
+[node name="RigidBody3D17" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -11.733)
+
+[node name="RigidBody3D18" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -11.733)
+
+[node name="RigidBody3D19" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -11.733)
+
+[node name="RigidBody3D20" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -11.733)
+
+[node name="RigidBody3D21" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -16.4836)
+
+[node name="RigidBody3D22" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -16.4836)
+
+[node name="RigidBody3D23" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -16.4836)
+
+[node name="RigidBody3D24" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -16.4836)
+
+[node name="RigidBody3D25" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -16.4836)
+
+[node name="RigidBody3D26" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -16.4836)
+
+[node name="RigidBody3D27" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -16.4836)
+
+[node name="RigidBody3D28" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -16.4836)
+
+[node name="RigidBody3D29" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -16.4836)
+
+[node name="RigidBody3D30" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -16.4836)
+
+[node name="RigidBody3D31" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -20.7139)
+
+[node name="RigidBody3D32" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -20.7139)
+
+[node name="RigidBody3D33" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -20.7139)
+
+[node name="RigidBody3D34" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -20.7139)
+
+[node name="RigidBody3D35" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -20.7139)
+
+[node name="RigidBody3D36" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -20.7139)
+
+[node name="RigidBody3D37" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -20.7139)
+
+[node name="RigidBody3D38" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -20.7139)
+
+[node name="RigidBody3D39" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -20.7139)
+
+[node name="RigidBody3D40" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -20.7139)
+
+[node name="RigidBody3D41" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -25.2237)
+
+[node name="RigidBody3D42" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -25.2237)
+
+[node name="RigidBody3D43" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -25.2237)
+
+[node name="RigidBody3D44" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -25.2237)
+
+[node name="RigidBody3D45" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -25.2237)
+
+[node name="RigidBody3D46" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -25.2237)
+
+[node name="RigidBody3D47" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -25.2237)
+
+[node name="RigidBody3D48" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -25.2237)
+
+[node name="RigidBody3D49" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -25.2237)
+
+[node name="RigidBody3D50" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -25.2237)
+
+[node name="RigidBody3D51" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -29.9743)
+
+[node name="RigidBody3D52" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -29.9743)
+
+[node name="RigidBody3D53" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -29.9743)
+
+[node name="RigidBody3D54" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -29.9743)
+
+[node name="RigidBody3D55" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -29.9743)
+
+[node name="RigidBody3D56" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -29.9743)
+
+[node name="RigidBody3D57" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -29.9743)
+
+[node name="RigidBody3D58" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -29.9743)
+
+[node name="RigidBody3D59" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -29.9743)
+
+[node name="RigidBody3D60" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -29.9743)
+
+[node name="RigidBody3D61" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -37.1406)
+
+[node name="RigidBody3D62" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -37.1406)
+
+[node name="RigidBody3D63" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -37.1406)
+
+[node name="RigidBody3D64" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -37.1406)
+
+[node name="RigidBody3D65" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -37.1406)
+
+[node name="RigidBody3D66" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -37.1406)
+
+[node name="RigidBody3D67" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -37.1406)
+
+[node name="RigidBody3D68" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -37.1406)
+
+[node name="RigidBody3D69" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -37.1406)
+
+[node name="RigidBody3D70" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -37.1406)
+
+[node name="RigidBody3D71" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -41.6504)
+
+[node name="RigidBody3D72" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -41.6504)
+
+[node name="RigidBody3D73" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -41.6504)
+
+[node name="RigidBody3D74" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -41.6504)
+
+[node name="RigidBody3D75" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -41.6504)
+
+[node name="RigidBody3D76" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -41.6504)
+
+[node name="RigidBody3D77" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -41.6504)
+
+[node name="RigidBody3D78" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -41.6504)
+
+[node name="RigidBody3D79" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -41.6504)
+
+[node name="RigidBody3D80" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -41.6504)
+
+[node name="RigidBody3D81" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.6258, 0.479227, -46.401)
+
+[node name="RigidBody3D82" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.03497, 0.479227, -46.401)
+
+[node name="RigidBody3D83" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.40791, 0.479227, -46.401)
+
+[node name="RigidBody3D84" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88116, 0.479227, -46.401)
+
+[node name="RigidBody3D85" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.22679, 0.479227, -46.401)
+
+[node name="RigidBody3D86" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.556804, 0.479227, -46.401)
+
+[node name="RigidBody3D87" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15815, 0.479227, -46.401)
+
+[node name="RigidBody3D88" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04237, 0.479227, -46.401)
+
+[node name="RigidBody3D89" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.85693, 0.479227, -46.401)
+
+[node name="RigidBody3D90" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.66688, 0.479227, -46.401)
+
+[node name="RigidBody3D91" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -7.2232)
+
+[node name="RigidBody3D92" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -7.2232)
+
+[node name="RigidBody3D93" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -7.2232)
+
+[node name="RigidBody3D94" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -7.2232)
+
+[node name="RigidBody3D95" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -7.2232)
+
+[node name="RigidBody3D96" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -7.2232)
+
+[node name="RigidBody3D97" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -7.2232)
+
+[node name="RigidBody3D98" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -7.2232)
+
+[node name="RigidBody3D99" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -7.2232)
+
+[node name="RigidBody3D100" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -7.2232)
+
+[node name="RigidBody3D101" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -11.733)
+
+[node name="RigidBody3D102" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -11.733)
+
+[node name="RigidBody3D103" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -11.733)
+
+[node name="RigidBody3D104" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -11.733)
+
+[node name="RigidBody3D105" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -11.733)
+
+[node name="RigidBody3D106" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -11.733)
+
+[node name="RigidBody3D107" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -11.733)
+
+[node name="RigidBody3D108" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -11.733)
+
+[node name="RigidBody3D109" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -11.733)
+
+[node name="RigidBody3D110" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -11.733)
+
+[node name="RigidBody3D111" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -16.4836)
+
+[node name="RigidBody3D112" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -16.4836)
+
+[node name="RigidBody3D113" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -16.4836)
+
+[node name="RigidBody3D114" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -16.4836)
+
+[node name="RigidBody3D115" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -16.4836)
+
+[node name="RigidBody3D116" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -16.4836)
+
+[node name="RigidBody3D117" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -16.4836)
+
+[node name="RigidBody3D118" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -16.4836)
+
+[node name="RigidBody3D119" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -16.4836)
+
+[node name="RigidBody3D120" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -16.4836)
+
+[node name="RigidBody3D121" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -20.7139)
+
+[node name="RigidBody3D122" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -20.7139)
+
+[node name="RigidBody3D123" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -20.7139)
+
+[node name="RigidBody3D124" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -20.7139)
+
+[node name="RigidBody3D125" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -20.7139)
+
+[node name="RigidBody3D126" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -20.7139)
+
+[node name="RigidBody3D127" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -20.7139)
+
+[node name="RigidBody3D128" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -20.7139)
+
+[node name="RigidBody3D129" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -20.7139)
+
+[node name="RigidBody3D130" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -20.7139)
+
+[node name="RigidBody3D131" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -25.2237)
+
+[node name="RigidBody3D132" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -25.2237)
+
+[node name="RigidBody3D133" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -25.2237)
+
+[node name="RigidBody3D134" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -25.2237)
+
+[node name="RigidBody3D135" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -25.2237)
+
+[node name="RigidBody3D136" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -25.2237)
+
+[node name="RigidBody3D137" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -25.2237)
+
+[node name="RigidBody3D138" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -25.2237)
+
+[node name="RigidBody3D139" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -25.2237)
+
+[node name="RigidBody3D140" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -25.2237)
+
+[node name="RigidBody3D141" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -29.9743)
+
+[node name="RigidBody3D142" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -29.9743)
+
+[node name="RigidBody3D143" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -29.9743)
+
+[node name="RigidBody3D144" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -29.9743)
+
+[node name="RigidBody3D145" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -29.9743)
+
+[node name="RigidBody3D146" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -29.9743)
+
+[node name="RigidBody3D147" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -29.9743)
+
+[node name="RigidBody3D148" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -29.9743)
+
+[node name="RigidBody3D149" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -29.9743)
+
+[node name="RigidBody3D150" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -29.9743)
+
+[node name="RigidBody3D151" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -37.1406)
+
+[node name="RigidBody3D152" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -37.1406)
+
+[node name="RigidBody3D153" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -37.1406)
+
+[node name="RigidBody3D154" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -37.1406)
+
+[node name="RigidBody3D155" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -37.1406)
+
+[node name="RigidBody3D156" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -37.1406)
+
+[node name="RigidBody3D157" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -37.1406)
+
+[node name="RigidBody3D158" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -37.1406)
+
+[node name="RigidBody3D159" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -37.1406)
+
+[node name="RigidBody3D160" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -37.1406)
+
+[node name="RigidBody3D161" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -41.6504)
+
+[node name="RigidBody3D162" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -41.6504)
+
+[node name="RigidBody3D163" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -41.6504)
+
+[node name="RigidBody3D164" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -41.6504)
+
+[node name="RigidBody3D165" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -41.6504)
+
+[node name="RigidBody3D166" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -41.6504)
+
+[node name="RigidBody3D167" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -41.6504)
+
+[node name="RigidBody3D168" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -41.6504)
+
+[node name="RigidBody3D169" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -41.6504)
+
+[node name="RigidBody3D170" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -41.6504)
+
+[node name="RigidBody3D171" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7441, 0.479227, -46.401)
+
+[node name="RigidBody3D172" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.335, 0.479227, -46.401)
+
+[node name="RigidBody3D173" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.962, 0.479227, -46.401)
+
+[node name="RigidBody3D174" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4888, 0.479227, -46.401)
+
+[node name="RigidBody3D175" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.1432, 0.479227, -46.401)
+
+[node name="RigidBody3D176" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9267, 0.479227, -46.401)
+
+[node name="RigidBody3D177" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5281, 0.479227, -46.401)
+
+[node name="RigidBody3D178" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.4123, 0.479227, -46.401)
+
+[node name="RigidBody3D179" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.2269, 0.479227, -46.401)
+
+[node name="RigidBody3D180" parent="." groups=["enemy"] instance=ExtResource("6_wcojn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0368, 0.479227, -46.401)
+
+[editable path="Car"]

@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://cleo0ujja2w1r"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yhqha"]
+size = Vector3(300, 1, 173.1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yhqha"]
+points = PackedVector3Array(-86.7, 0, -150, -173.1, 0, 0, -86.7, 1, -150, 86.7, 0, -150, -173.1, 1, 0, -86.7, 0, 150, 86.7, 1, -150, 173.1, 0, 0, -86.7, 1, 150, 86.7, 0, 150, 173.1, 1, 0, 86.7, 1, 150)
+
+[sub_resource type="GDScript" id="GDScript_vx4y2"]
+script/source = "extends ArrayMesh
+@export var pointArray: Array[Array]
+
+func ready() -> void:
+	add_surface_from_arrays(3, pointArray)
+"
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_a2t34"]
+script = SubResource("GDScript_vx4y2")
+pointArray = PackedVector3Array(-86.7, 0, -150, -173.1, 0, 0, -86.7, 1, -150, 86.7, 0, -150, -173.1, 1, 0, -86.7, 0, 150, 86.7, 1, -150, 173.1, 0, 0, -86.7, 1, 150, 86.7, 0, 150, 173.1, 1, 0, 86.7, 1, 150)
+
+[node name="Tile" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_yhqha")
+skeleton = NodePath("../CollisionShape3D2")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.5, 0)
+visible = false
+mesh = SubResource("BoxMesh_yhqha")
+skeleton = NodePath("../CollisionShape3D2")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_yhqha")
+debug_color = Color(0, 0.6, 0.701961, 1)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0.5, 0)
+mesh = SubResource("ArrayMesh_a2t34")
+skeleton = NodePath("../CollisionShape3D2")
