@@ -10,7 +10,7 @@ const HEX_WIDTH = HEX_SIZE * 2.0
 const HEX_HEIGHT = HEX_SIZE * SQRT_3
 
 # Tile scene
-@export var tile_scene_path: String = "res://tile.tscn"
+@export var tile_scene_path: String = "res://island_test.tscn"
 var tile_scene: PackedScene
 
 # Player reference
@@ -203,17 +203,17 @@ func configure_tile(tile: HexTile):
 
 func setup_tile_color(tile: HexTile):
 	var instance = tile.scene_instance
-	var mesh: MeshInstance3D = instance.get_node("collision/mesh")
-	
-	
-	# Create a unique material for this tile (duplicate the original)
-	var original_material: ShaderMaterial = mesh.get_active_material(0)
-	var unique_material: ShaderMaterial = original_material.duplicate()
-	
-	# Use tile coordinates as seed for consistent colors
-	var tile_seed = tile.coord.hash()
-	var rng = RandomNumberGenerator.new()
-	rng.seed = tile_seed
+	#var mesh: MeshInstance3D = instance.get_node("collision/mesh")
+	#
+	#
+	## Create a unique material for this tile (duplicate the original)
+	#var original_material: ShaderMaterial = mesh.get_active_material(0)
+	#var unique_material: ShaderMaterial = original_material.duplicate()
+	#
+	## Use tile coordinates as seed for consistent colors
+	#var tile_seed = tile.coord.hash()
+	#var rng = RandomNumberGenerator.new()
+	#rng.seed = tile_seed
 	
 	## Generate a nice color using HSV for better color distribution
 	#var hue = rng.randf()  # Random hue (0-1)

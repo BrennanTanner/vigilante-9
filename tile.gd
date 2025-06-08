@@ -15,8 +15,8 @@ func set_hex_coordinate(q: int, r: int):
 	# You can use coordinates for tile-specific logic
 	setup_tile_based_on_coordinates()
 
-func set_generation_seed(seed: int):
-	generation_seed = seed
+func set_generation_seed(gSeed: int):
+	generation_seed = gSeed
 	# Use this seed for consistent random generation within this tile
 
 func set_distance_from_origin(distance: int):

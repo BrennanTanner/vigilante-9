@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="3d_car_sphere"
+config/name="Vigilante_9"
+config/version="0.1.3"
 run/main_scene="uid://dov4h4ifh60v7"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
@@ -27,7 +28,7 @@ window/dpi/allow_hidpi=false
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg", "res://addons/virtual_joystick/plugin.cfg")
+enabled=PackedStringArray("res://addons/debug_menu/plugin.cfg", "res://addons/virtual_joystick/plugin.cfg", "res://addons/zylann.hterrain/plugin.cfg")
 
 [global_group]
 
