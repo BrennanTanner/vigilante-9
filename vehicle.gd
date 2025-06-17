@@ -12,9 +12,6 @@ class_name Car
 @export var health: int = 100
 @export var starting_gun: PackedScene
 
-var tile = load("res://tile.tscn")
-var instance
-
 # Rotation and angle tracking
 var target_rotation_y: float = 0.0
 var prev_target_rotation_y: float = 0.0
@@ -70,6 +67,7 @@ func handle_steering(delta):
 		if abs(angle_difference) < angle_change_threshold:
 			target_angle_reached = true
 	else:
+		steering = lerp(steering, 0.0, delta * 5.0)
 		target_angle_reached = false
 
 func apply_wheel_friction():

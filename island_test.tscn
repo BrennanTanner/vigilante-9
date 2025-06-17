@@ -1,30 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cr7hntptq304y"]
+[gd_scene load_steps=2 format=3 uid="uid://cr7hntptq304y"]
 
 [ext_resource type="PackedScene" uid="uid://cleo0ujja2w1r" path="res://tile.tscn" id="1_5bl2x"]
-[ext_resource type="Script" uid="uid://bkvbtb7g0e77h" path="res://addons/zylann.hterrain/hterrain.gd" id="2_cc3qt"]
-[ext_resource type="Resource" path="res://assets/.png" id="3_5bl2x"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="tile" parent="." instance=ExtResource("1_5bl2x")]
-
-[node name="HTerrain" type="Node3D" parent="."]
-script = ExtResource("2_cc3qt")
-map_scale = Vector3(0.25, 0.25, 0.25)
-centered = true
-_terrain_data = null
-chunk_size = 32
-collision_enabled = true
-collision_layer = 1
-collision_mask = 1
-shader_type = "Classic4Lite"
-custom_shader = null
-custom_globalmap_shader = null
-texture_set = ExtResource("3_5bl2x")
-render_layers = 1
-cast_shadow = 1
-shader_params/u_ground_uv_scale = 20
-shader_params/u_depth_blending = true
-shader_params/u_triplanar = null
-shader_params/u_tile_reduction = null
-metadata/_custom_type_script = "uid://bkvbtb7g0e77h"

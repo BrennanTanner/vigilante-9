@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dov4h4ifh60v7"]
+[gd_scene load_steps=27 format=3 uid="uid://dov4h4ifh60v7"]
 
 [ext_resource type="Texture2D" uid="uid://0wof2ikeolop" path="res://assets/texture_01.png" id="1_tbqoc"]
 [ext_resource type="Script" uid="uid://bjenl5h3t2m30" path="res://Camera3D.gd" id="3_opq1w"]
@@ -9,8 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://cvh0fwg53wpus" path="res://car.tscn" id="8_2h328"]
 [ext_resource type="PackedScene" uid="uid://ddeo5omto3ehi" path="res://enemy-rigid.tscn" id="9_njel3"]
 [ext_resource type="Shader" uid="uid://b1twbdp1050aj" path="res://Water.gdshader" id="10_rpuu0"]
-[ext_resource type="PackedScene" uid="uid://crq7wskyv8acn" path="res://tile_manager.tscn" id="10_vr1i5"]
-[ext_resource type="PackedScene" uid="uid://cr7hntptq304y" path="res://island_test.tscn" id="11_rpuu0"]
+[ext_resource type="Script" uid="uid://bekdo6mejkpwv" path="res://addons/infinite_heightmap_terrain/infinite_terrain.gd" id="11_rpuu0"]
+[ext_resource type="Curve" uid="uid://bsm1rahmksl6y" path="res://addons/infinite_heightmap_terrain/sample resources/textures/terrain_coloring_threshold_curve.tres" id="13_k6its"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_74a4f"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -24,18 +24,6 @@ background_mode = 2
 sky = SubResource("Sky_pcewp")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pj28r"]
-albedo_texture = ExtResource("1_tbqoc")
-uv1_triplanar = true
-
-[sub_resource type="BoxMesh" id="BoxMesh_jugg0"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_pj28r")
-size = Vector3(10, 2, 50)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_njel3"]
-points = PackedVector3Array(5, 1, 25, 5, -1, 25, 5, 1, -25, -5, 1, 25, -5, -1, 25, 5, -1, -25, -5, 1, -25, -5, -1, -25)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_vr1i5"]
 noise_type = 5
@@ -91,7 +79,30 @@ shader_parameter/normal_map_scale = Vector2(0.1, 0.1)
 material = SubResource("ShaderMaterial_oo8pe")
 size = Vector2(500, 500)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pj28r"]
+albedo_texture = ExtResource("1_tbqoc")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_jugg0"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_pj28r")
+size = Vector3(10, 2, 50)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_njel3"]
+points = PackedVector3Array(5, 1, 25, 5, -1, 25, 5, 1, -25, -5, 1, 25, -5, -1, 25, 5, -1, -25, -5, 1, -25, -5, -1, -25)
+
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_vr1i5"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rpuu0"]
+fractal_type = 0
+fractal_ping_pong_strength = 1.0
+domain_warp_type = 1
+domain_warp_amplitude = 100.0
+domain_warp_fractal_type = 0
+
+[sub_resource type="Curve" id="Curve_oo8pe"]
+_data = [Vector2(0.00205761, 0.997736), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="TestScene" type="Node3D"]
 
@@ -107,21 +118,30 @@ shadow_enabled = true
 environment = SubResource("Environment_pk4ow")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 0.705933, 0.708278, 0, -0.708278, 0.705933, 0.0735626, 14.5306, 15.272)
+transform = Transform3D(1, 0, 0, 0, 0.595468, 0.803379, 0, -0.803379, 0.595468, 0.0735626, 32.6494, 16.6072)
 script = ExtResource("3_opq1w")
 target = NodePath("../VehicleBody3D")
+lockYAxis = true
 
 [node name="collectible" parent="." instance=ExtResource("5_owug8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.78277, 1, -14.4032)
+
+[node name="Ocean" type="MeshInstance3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+mesh = SubResource("PlaneMesh_4gito")
+script = ExtResource("3_opq1w")
+target = NodePath("../VehicleBody3D")
 
 [node name="Control" parent="." instance=ExtResource("7_epgdl")]
 turret_gun = ExtResource("4_6vq5s")
 grenade_gun = ExtResource("8_0dkfu")
 
 [node name="VehicleBody3D" parent="." groups=["player"] instance=ExtResource("8_2h328")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.28665, 4.49107, 0.195471)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.28665, 16.2972, 0.195471)
 collision_layer = 5
 base_engine_power = 300.0
+base_friction_slip = 0.85
+min_friction_slip = 0.65
 starting_gun = ExtResource("4_6vq5s")
 
 [node name="Label" type="Label" parent="."]
@@ -158,20 +178,21 @@ mesh = SubResource("BoxMesh_jugg0")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_njel3")
 
-[node name="TileManager" parent="." node_paths=PackedStringArray("player") instance=ExtResource("10_vr1i5")]
-visible = false
-player = NodePath("../VehicleBody3D")
-generation_radius = 1
-unload_distance = 1
-
-[node name="Ocean" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-visible = false
-mesh = SubResource("PlaneMesh_4gito")
-
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("HeightMapShape3D_vr1i5")
 
-[node name="Node3D" parent="." instance=ExtResource("11_rpuu0")]
+[node name="InfiniteTerrain" type="StaticBody3D" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("11_rpuu0")
+player = NodePath("../VehicleBody3D")
+terrain_noise = SubResource("FastNoiseLite_rpuu0")
+chunk_radius = 5
+chunk_subdivisor = 1
+terrain_height_multiplier = 10.0
+terrain_color_steepness_curve = ExtResource("13_k6its")
+use_bigmesh = false
+bigmesh_on_thread = false
+path_flatten_radius = 10.0
+path_curve = SubResource("Curve_oo8pe")
+metadata/_custom_type_script = "uid://bekdo6mejkpwv"
