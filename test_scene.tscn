@@ -101,8 +101,8 @@ domain_warp_amplitude = 100.0
 domain_warp_fractal_type = 0
 
 [sub_resource type="Curve" id="Curve_oo8pe"]
-_data = [Vector2(0.00205761, 0.997736), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0.00205761, 1), 0.0, -1.52462e-07, 0, 0, Vector2(0.497942, 0.00383139), 0.03085, 0.03085, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [node name="TestScene" type="Node3D"]
 
@@ -128,6 +128,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.78277, 1, -14.4032)
 
 [node name="Ocean" type="MeshInstance3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+visible = false
 mesh = SubResource("PlaneMesh_4gito")
 script = ExtResource("3_opq1w")
 target = NodePath("../VehicleBody3D")
@@ -187,12 +188,13 @@ shape = SubResource("HeightMapShape3D_vr1i5")
 script = ExtResource("11_rpuu0")
 player = NodePath("../VehicleBody3D")
 terrain_noise = SubResource("FastNoiseLite_rpuu0")
-chunk_radius = 5
-chunk_subdivisor = 1
+terrain_large_function = 2
+terrain_chunk_size = 200.0
+chunk_radius = 1
+chunk_subdivisor = 2
 terrain_height_multiplier = 10.0
 terrain_color_steepness_curve = ExtResource("13_k6its")
-use_bigmesh = false
-bigmesh_on_thread = false
-path_flatten_radius = 10.0
-path_curve = SubResource("Curve_oo8pe")
+mountain_strength = 0.1
+path_grid_resolution = 10.0
+height_weight_curve = SubResource("Curve_oo8pe")
 metadata/_custom_type_script = "uid://bekdo6mejkpwv"
