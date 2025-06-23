@@ -93,21 +93,19 @@ points = PackedVector3Array(0.619794, 0.272664, 1.75257, -0.74501, -0.000165455,
 
 [node name="VehicleBody3D" type="VehicleBody3D"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-mass = 45.0
+mass = 25.0
 gravity_scale = 3.0
 center_of_mass_mode = 1
 center_of_mass = Vector3(0, -0.3, 0)
 script = ExtResource("1_bj7n4")
 base_engine_power = 100.0
-base_friction_slip = 0.8
-min_friction_slip = 0.6
-high_friction_slip = 1.0
 
 [node name="VehicleWheel3D" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, -0.132264, -0.9)
+use_as_traction = true
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 0.8
+wheel_friction_slip = 1.0
 suspension_travel = 0.1
 suspension_stiffness = 200.0
 suspension_max_force = 10000.0
@@ -116,15 +114,15 @@ damping_relaxation = 4.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 mesh = SubResource("CylinderMesh_7c8qn")
 
 [node name="VehicleWheel3D2" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.65, -0.132264, 1.15)
-use_as_traction = true
 use_as_steering = true
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 1.1
+wheel_friction_slip = 1.2
 suspension_travel = 0.1
 suspension_stiffness = 200.0
 suspension_max_force = 10000.0
@@ -133,13 +131,15 @@ damping_relaxation = 4.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D2"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 mesh = SubResource("CylinderMesh_7c8qn")
 
 [node name="VehicleWheel3D3" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.132264, -0.9)
+use_as_traction = true
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 0.8
+wheel_friction_slip = 1.0
 suspension_travel = 0.1
 suspension_stiffness = 200.0
 suspension_max_force = 10000.0
@@ -148,15 +148,15 @@ damping_relaxation = 4.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D3"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 mesh = SubResource("CylinderMesh_7c8qn")
 
 [node name="VehicleWheel3D4" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.65, -0.182264, 1.15)
-use_as_traction = true
 use_as_steering = true
 wheel_radius = 0.35
 wheel_rest_length = 0.2
-wheel_friction_slip = 1.1
+wheel_friction_slip = 1.2
 suspension_travel = 0.1
 suspension_stiffness = 200.0
 suspension_max_force = 10000.0
@@ -165,6 +165,7 @@ damping_relaxation = 4.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="VehicleWheel3D4"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 mesh = SubResource("CylinderMesh_7c8qn")
 
 [node name="CarMesh" type="MeshInstance3D" parent="."]
@@ -199,3 +200,18 @@ offset_top = -148.44
 offset_right = -148.0
 offset_bottom = 81.56
 joystick_mode = 1
+
+[node name="Button" type="Button" parent="Virtual joystick"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 3.415
+anchor_top = 0.5
+anchor_right = 3.415
+anchor_bottom = 0.5
+offset_left = 58.5
+offset_top = -52.0
+offset_right = 255.5
+offset_bottom = 73.0
+action_mode = 0
+text = "Brake"

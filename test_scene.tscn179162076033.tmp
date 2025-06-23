@@ -1,20 +1,16 @@
-[gd_scene load_steps=32 format=3 uid="uid://dov4h4ifh60v7"]
+[gd_scene load_steps=27 format=3 uid="uid://dov4h4ifh60v7"]
 
 [ext_resource type="Texture2D" uid="uid://0wof2ikeolop" path="res://assets/texture_01.png" id="1_tbqoc"]
 [ext_resource type="Script" uid="uid://bjenl5h3t2m30" path="res://Camera3D.gd" id="3_opq1w"]
+[ext_resource type="PackedScene" uid="uid://c2wccr3p0sk58" path="res://gun.tscn" id="4_6vq5s"]
 [ext_resource type="PackedScene" uid="uid://wp0un6jcxgck" path="res://collectible.tscn" id="5_owug8"]
+[ext_resource type="PackedScene" uid="uid://ch7c6peoj3tvy" path="res://shop.tscn" id="7_epgdl"]
+[ext_resource type="PackedScene" uid="uid://b7e3n3xsqrorv" path="res://gun2.tscn" id="8_0dkfu"]
+[ext_resource type="PackedScene" uid="uid://cvh0fwg53wpus" path="res://car.tscn" id="8_2h328"]
 [ext_resource type="PackedScene" uid="uid://ddeo5omto3ehi" path="res://enemy-rigid.tscn" id="9_njel3"]
 [ext_resource type="Shader" uid="uid://b1twbdp1050aj" path="res://Water.gdshader" id="10_rpuu0"]
-[ext_resource type="PackedScene" uid="uid://c3ixqkc6k13yi" path="res://addons/gevp/scenes/vehicle_controller.tscn" id="11_2dw41"]
 [ext_resource type="Script" uid="uid://bekdo6mejkpwv" path="res://addons/infinite_heightmap_terrain/infinite_terrain.gd" id="11_rpuu0"]
-[ext_resource type="PackedScene" uid="uid://ccs7xtede51mo" path="res://addons/gevp/scenes/simcade_car.tscn" id="12_ykxp3"]
-[ext_resource type="PackedScene" uid="uid://b2hlchrj4h2b7" path="res://addons/gevp/scenes/engine_sound.tscn" id="13_g6y4b"]
 [ext_resource type="Curve" uid="uid://bsm1rahmksl6y" path="res://addons/infinite_heightmap_terrain/sample resources/textures/terrain_coloring_threshold_curve.tres" id="13_k6its"]
-[ext_resource type="PackedScene" uid="uid://h6vdpba71kpr" path="res://addons/gevp/scenes/smoke_effect.tscn" id="14_pvxhv"]
-[ext_resource type="PackedScene" uid="uid://dmr0fcamx7t56" path="res://addons/virtual_joystick/virtual_joystick_scene.tscn" id="15_6h1ut"]
-[ext_resource type="Script" uid="uid://dxuvs2364c2i2" path="res://addons/gevp/scripts/gui.gd" id="16_6m80x"]
-[ext_resource type="Script" uid="uid://denye1gc0f54" path="res://addons/gevp/scripts/debug.gd" id="17_cqn77"]
-[ext_resource type="Script" uid="uid://dagdje4adxt0b" path="res://addons/gevp/scripts/debug_ui.gd" id="18_22oil"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_74a4f"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -97,8 +93,6 @@ points = PackedVector3Array(5, 1, 25, 5, -1, 25, 5, 1, -25, -5, 1, 25, -5, -1, 2
 
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_vr1i5"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rpuu0"]
-
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_rpuu0"]
 fractal_type = 0
 fractal_ping_pong_strength = 1.0
@@ -124,9 +118,9 @@ shadow_enabled = true
 environment = SubResource("Environment_pk4ow")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 21.0919, 17.5162)
+transform = Transform3D(1, 0, 0, 0, 0.389687, 0.920948, 0, -0.920948, 0.389687, 0.0735626, 22.2511, 3.1704)
 script = ExtResource("3_opq1w")
-target = NodePath("../VehicleController/VehicleRigidBody")
+target = NodePath("../VehicleBody3D")
 lockYAxis = true
 
 [node name="collectible" parent="." instance=ExtResource("5_owug8")]
@@ -136,7 +130,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.78277, 1, -14.4032)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, -53.4047)
 mesh = SubResource("PlaneMesh_4gito")
 script = ExtResource("3_opq1w")
-target = NodePath("../VehicleController/VehicleRigidBody")
+target = NodePath("../VehicleBody3D")
+
+[node name="Control" parent="." instance=ExtResource("7_epgdl")]
+turret_gun = ExtResource("4_6vq5s")
+grenade_gun = ExtResource("8_0dkfu")
+
+[node name="VehicleBody3D" parent="." groups=["player"] instance=ExtResource("8_2h328")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.28665, 16.2972, 0.195471)
+collision_layer = 5
+mass = 50.0
+base_engine_power = 300.0
+starting_gun = ExtResource("4_6vq5s")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 59.0
+offset_top = 44.0
+offset_right = 202.0
+offset_bottom = 67.0
+text = "kjk"
 
 [node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("9_njel3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.4235, 3.03115, -56.5203)
@@ -170,10 +182,9 @@ shape = SubResource("ConvexPolygonShape3D_njel3")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("HeightMapShape3D_vr1i5")
 
-[node name="InfiniteTerrain" type="StaticBody3D" parent="." node_paths=PackedStringArray("player") groups=["Road"]]
-physics_material_override = SubResource("PhysicsMaterial_rpuu0")
+[node name="InfiniteTerrain" type="StaticBody3D" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("11_rpuu0")
-player = NodePath("../VehicleController/VehicleRigidBody")
+player = NodePath("../VehicleBody3D")
 terrain_noise = SubResource("FastNoiseLite_rpuu0")
 terrain_noise_large = SubResource("FastNoiseLite_oo8pe")
 terrain_large_function = 2
@@ -184,85 +195,3 @@ terrain_height_multiplier = 15.0
 terrain_color_steepness_curve = ExtResource("13_k6its")
 mountain_strength = 0.1
 metadata/_custom_type_script = "uid://bekdo6mejkpwv"
-
-[node name="VehicleController" parent="." node_paths=PackedStringArray("vehicle_node") instance=ExtResource("11_2dw41")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09154, 0)
-vehicle_node = NodePath("VehicleRigidBody")
-
-[node name="VehicleRigidBody" parent="VehicleController" groups=["player"] instance=ExtResource("12_ykxp3")]
-mass = 45.0
-gravity_scale = 3.0
-
-[node name="EngineSound" parent="VehicleController/VehicleRigidBody" node_paths=PackedStringArray("vehicle") instance=ExtResource("13_g6y4b")]
-vehicle = NodePath("..")
-
-[node name="Smoke" parent="VehicleController/VehicleRigidBody" node_paths=PackedStringArray("vehicle") instance=ExtResource("14_pvxhv")]
-vehicle = NodePath("..")
-
-[node name="Virtual joystick" parent="VehicleController" instance=ExtResource("15_6h1ut")]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.818
-anchor_right = 0.5
-anchor_bottom = 0.818
-offset_left = -448.0
-offset_top = -148.44
-offset_right = -148.0
-offset_bottom = 81.56
-joystick_mode = 1
-
-[node name="Button" type="Button" parent="VehicleController/Virtual joystick"]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 3.415
-anchor_top = 0.5
-anchor_right = 3.415
-anchor_bottom = 0.5
-offset_left = 58.5
-offset_top = -52.0
-offset_right = 255.5
-offset_bottom = 73.0
-action_mode = 0
-text = "Brake"
-
-[node name="GUI" type="Control" parent="." node_paths=PackedStringArray("vehicle")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("16_6m80x")
-vehicle = NodePath("../VehicleController/VehicleRigidBody")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Speed" type="Label" parent="GUI/VBoxContainer"]
-layout_mode = 2
-
-[node name="RPM" type="Label" parent="GUI/VBoxContainer"]
-layout_mode = 2
-
-[node name="Gear" type="Label" parent="GUI/VBoxContainer"]
-layout_mode = 2
-
-[node name="Debug" type="Node" parent="." node_paths=PackedStringArray("vehicle")]
-script = ExtResource("17_cqn77")
-vehicle = NodePath("../VehicleController/VehicleRigidBody")
-
-[node name="DebugUI" type="Control" parent="Debug"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("18_22oil")
-metadata/_edit_use_anchors_ = true

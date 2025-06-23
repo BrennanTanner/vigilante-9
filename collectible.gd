@@ -4,7 +4,7 @@ const MOVE_SPEED = 30.0
 const MIN_DISTANCE = 1.0  # Distance of maximum magnetic force
 const MAX_DISTANCE = 10.0 # Distance where magnetic force starts
 
-var player: Car = null
+var player: Node3D = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

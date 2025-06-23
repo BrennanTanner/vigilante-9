@@ -7,7 +7,7 @@ extends RigidBody3D
 @onready var ray_cast = $RayCast3D
 
 var loot = load("res://collectible.tscn")
-var player: Car = null
+var player:  Node3D = null
 var is_on_ground: bool = false
 var up_direction: Vector3 = Vector3.UP
 		

@@ -64,9 +64,7 @@ shape = SubResource("ConcavePolygonShape3D_md76x")
 
 [node name="Car" parent="." instance=ExtResource("4_jl63w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111084, 2.41537, -0.00952339)
-base_engine_power = 500.0
-base_friction_slip = 0.5
-high_friction_slip = 0.75
+base_engine_power = 300.0
 
 [node name="VehicleWheel3D" parent="Car" index="0"]
 wheel_friction_slip = 0.5

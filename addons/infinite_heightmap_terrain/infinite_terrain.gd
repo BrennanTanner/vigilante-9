@@ -30,12 +30,6 @@ class_name InfiniteTerrain
 @export var path_smooth_radius: float = 10.0
 @export var path_color: Color = Color.TAN
 
-@export_category("Path Generation")
-@export var path_grid_resolution: float = 5.0  # Distance between path points
-@export var height_weight_curve: Curve  # Curve to control height-based weighting
-@export var min_weight: float = 1.0
-@export var max_weight: float = 10.0
-
 var current_player_chunk: Vector2i:
 	set(value):
 		if current_player_chunk:
@@ -54,12 +48,6 @@ var exit_thread := false
 var queue_thread := false
 var load_counter: int = 0
 
-var astar: AStar3D
-var current_path: PackedVector3Array
-var path_line: Node3D
-var chunk_astar_points: Dictionary = {}  # chunk -> array of point IDs
-var astar_point_positions: Dictionary = {}  # point_id -> Vector3 position
-var next_point_id: int = 0
 
 func _enter_tree():
 	# Initialization of the plugin goes here.
@@ -68,7 +56,6 @@ func _enter_tree():
 
 func _ready():
 	if generate_terrain and not Engine.is_editor_hint():
-		astar = AStar3D.new()
 		mutex = Mutex.new()
 		semaphore = Semaphore.new()
 		exit_thread = true
@@ -91,7 +78,8 @@ func _ready():
 					newcollider.global_position = Vector3(
 						x * terrain_chunk_size, 0.0, y * terrain_chunk_size
 					)
-		generate_path_to_target(Vector3(20000, 0, -20000))
+
+
 func _process(delta):
 	if player and generate_terrain and not Engine.is_editor_hint():
 		var player_pos_3d = (
@@ -101,7 +89,7 @@ func _process(delta):
 			/ terrain_chunk_size
 		)
 		current_player_chunk = Vector2i(player_pos_3d.x, player_pos_3d.z)
-		
+
 		if queue_thread:
 			if exit_thread:
 				#print(current_car_chunk)
@@ -121,7 +109,6 @@ func get_terrain_height(pos_x: float, pos_z: float) -> float:
 
 
 func _player_in_new_chunk():
-	generate_path_to_target(Vector3(20000, 0, -20000))
 	if exit_thread:
 		exit_thread = false
 		semaphore.post()
@@ -170,7 +157,7 @@ func _thread_function():
 		else:
 			load_counter = 0
 
-# remove distant meshes AND A* points
+		# remove distant meshes
 		for k: Vector2i in mesh_dict.keys():
 			if absi(ccc.x - k.x) > chunk_radius or absi(ccc.y - k.y) > chunk_radius:
 				var mesh_to_remove = mesh_dict[k]
@@ -178,10 +165,6 @@ func _thread_function():
 					var col_to_remove = collider_dict[k]
 					collider_dict.erase(k)
 					col_to_remove.call_deferred("queue_free")
-				
-				# Remove A* points for this chunk
-				call_deferred("remove_chunk_astar_points", k)
-				
 				mesh_dict.erase(k)
 				mesh_to_remove.call_deferred("queue_free")
 
@@ -194,15 +177,10 @@ func _thread_function():
 
 func generate_terrain_mesh(chunk: Vector2i):
 	if not mesh_dict.has(chunk):
-		# Your existing mesh generation code here...
 		var new_mesh = MeshInstance3D.new()
 		var chunkmesh = new_mesh
 		mesh_dict[chunk] = chunkmesh
 
-		# Generate A* points for this chunk
-		generate_astar_points_for_chunk(chunk)
-
-		# ... rest of your existing mesh generation code
 		var multimesh_positions: PackedVector3Array = []
 
 		var arrmesh = ArrayMesh.new()
@@ -353,6 +331,21 @@ func generate_terrain_mesh(chunk: Vector2i):
 
 				four_counter += 4
 
+		#var dict_lods := {100.0: PackedInt32Array([]),
+		#}
+		#
+		#var four_counter_lod0: int = 0
+		#
+		#for x_division in chunk_subdivisions / 50:
+		#for z_division in chunk_subdivisions / 50:
+		#dict_lods[100.0].append_array([(four_counter_lod0 + 0) * 50,
+		#(four_counter_lod0 + 1) * 50,
+		#(four_counter_lod0 + 3) * 50,
+		#(four_counter_lod0 + 3) * 50,
+		#(four_counter_lod0 + 2) * 50,
+		#(four_counter_lod0 + 0) * 50])
+		#four_counter_lod0 += 4 * 50
+
 		arrays[Mesh.ARRAY_VERTEX] = verts
 		arrays[Mesh.ARRAY_NORMAL] = norms
 		arrays[Mesh.ARRAY_TEX_UV] = uvs
@@ -368,139 +361,6 @@ func generate_terrain_mesh(chunk: Vector2i):
 		return [chunkmesh]
 	else:
 		return false
-
-func generate_astar_points_for_chunk(chunk: Vector2i):
-	"""Generate A* pathfinding points for a specific chunk"""
-	if chunk_astar_points.has(chunk):
-		return  # Points already generated for this chunk
-	
-	var chunk_points: Array[int] = []
-	
-	var chunk_x = float(chunk.x)
-	var chunk_z = float(chunk.y)
-	var chunk_center = Vector2(chunk_x * terrain_chunk_size, chunk_z * terrain_chunk_size)
-	
-	var start_x = chunk_center.x - (terrain_chunk_size * 0.5)
-	var start_z = chunk_center.y - (terrain_chunk_size * 0.5)
-	var end_x = chunk_center.x + (terrain_chunk_size * 0.5)
-	var end_z = chunk_center.y + (terrain_chunk_size * 0.5)
-	
-	# Generate points within this chunk
-	var points_per_chunk = int(terrain_chunk_size / path_grid_resolution)
-	
-	for x in range(points_per_chunk + 1):
-		for z in range(points_per_chunk + 1):
-			var progress_x = float(x) / float(points_per_chunk)
-			var progress_z = float(z) / float(points_per_chunk)
-			
-			var world_x = lerp(start_x, end_x, progress_x)
-			var world_z = lerp(start_z, end_z, progress_z)
-			var world_y = get_terrain_height(world_x, world_z)
-			
-			var point_pos = Vector3(world_x, world_y, world_z)
-			var weight = calculate_height_weight(world_y)
-			
-			var point_id = next_point_id
-			next_point_id += 1
-			
-			astar.add_point(point_id, point_pos, weight)
-			astar_point_positions[point_id] = point_pos
-			chunk_points.append(point_id)
-	
-	chunk_astar_points[chunk] = chunk_points
-	
-	# Connect points within this chunk and to neighboring chunks
-	connect_chunk_points(chunk)
-
-func connect_chunk_points(chunk: Vector2i):
-	"""Connect A* points within a chunk and to neighboring chunks"""
-	if not chunk_astar_points.has(chunk):
-		return
-	
-	var points_per_chunk = int(terrain_chunk_size / path_grid_resolution) + 1
-	var chunk_points = chunk_astar_points[chunk]
-	
-	# Connect points within this chunk
-	for x in range(points_per_chunk):
-		for z in range(points_per_chunk):
-			var current_index = x * points_per_chunk + z
-			var current_id = chunk_points[current_index]
-			
-			# Connect to right neighbor within chunk
-			if x < points_per_chunk - 1:
-				var right_index = (x + 1) * points_per_chunk + z
-				var right_id = chunk_points[right_index]
-				astar.connect_points(current_id, right_id)
-			
-			# Connect to bottom neighbor within chunk
-			if z < points_per_chunk - 1:
-				var bottom_index = x * points_per_chunk + (z + 1)
-				var bottom_id = chunk_points[bottom_index]
-				astar.connect_points(current_id, bottom_id)
-			
-			# Connect to diagonal neighbors within chunk
-			if x < points_per_chunk - 1 and z < points_per_chunk - 1:
-				var diagonal_index = (x + 1) * points_per_chunk + (z + 1)
-				var diagonal_id = chunk_points[diagonal_index]
-				astar.connect_points(current_id, diagonal_id)
-			
-			if x < points_per_chunk - 1 and z > 0:
-				var diagonal_index = (x + 1) * points_per_chunk + (z - 1)
-				var diagonal_id = chunk_points[diagonal_index]
-				astar.connect_points(current_id, diagonal_id)
-	
-	# Connect to neighboring chunks if they exist
-	connect_to_neighboring_chunks(chunk)
-
-func connect_to_neighboring_chunks(chunk: Vector2i):
-	"""Connect edge points of this chunk to neighboring chunks"""
-	var neighbors = [
-		Vector2i(chunk.x + 1, chunk.y),     # Right
-		Vector2i(chunk.x, chunk.y + 1),     # Bottom
-		Vector2i(chunk.x + 1, chunk.y + 1), # Bottom-right diagonal
-		Vector2i(chunk.x - 1, chunk.y),     # Left
-		Vector2i(chunk.x, chunk.y - 1),     # Top
-		Vector2i(chunk.x - 1, chunk.y - 1), # Top-left diagonal
-		Vector2i(chunk.x + 1, chunk.y - 1), # Top-right diagonal
-		Vector2i(chunk.x - 1, chunk.y + 1)  # Bottom-left diagonal
-	]
-	
-	for neighbor_chunk in neighbors:
-		if chunk_astar_points.has(neighbor_chunk):
-			connect_chunk_edges(chunk, neighbor_chunk)
-
-func connect_chunk_edges(chunk1: Vector2i, chunk2: Vector2i):
-	"""Connect edge points between two adjacent chunks"""
-	if not chunk_astar_points.has(chunk1) or not chunk_astar_points.has(chunk2):
-		return
-	
-	var chunk1_points = chunk_astar_points[chunk1]
-	var chunk2_points = chunk_astar_points[chunk2]
-	var connection_distance = path_grid_resolution * 1.5  # Slightly more than grid resolution
-	
-	# For each point in chunk1, find nearby points in chunk2 and connect them
-	for point1_id in chunk1_points:
-		var pos1 = astar_point_positions[point1_id]
-		
-		for point2_id in chunk2_points:
-			var pos2 = astar_point_positions[point2_id]
-			
-			# Connect if they're close enough (edge connection)
-			if pos1.distance_to(pos2) <= connection_distance:
-				astar.connect_points(point1_id, point2_id)
-
-# Modify your thread function to clean up A* points when chunks are removed
-func remove_chunk_astar_points(chunk: Vector2i):
-	"""Remove A* points when a chunk is unloaded"""
-	if chunk_astar_points.has(chunk):
-		var points_to_remove = chunk_astar_points[chunk]
-		
-		# Remove all points for this chunk from AStar
-		for point_id in points_to_remove:
-			astar.remove_point(point_id)
-			astar_point_positions.erase(point_id)
-		
-		chunk_astar_points.erase(chunk)
 
 
 func generate_terrain_collision(chunk: Vector2i):
@@ -710,134 +570,6 @@ func sample_2dv_smooth_pathless(point: Vector2) -> float:
 	value = (v1 + v2 + v3 + v4) / 4.0
 
 	return value
-
-func generate_path_to_target(target_pos: Vector3) -> PackedVector3Array:
-	"""Generate an A* path from (0,0) to target position using existing chunk points"""
-	if not astar:
-		print("AStar not initialized!")
-		return PackedVector3Array()
-	
-	# Clear existing path visualization
-	if path_line:
-		path_line.queue_free()
-	
-	var start_pos = Vector3(0, 0, 0)
-	start_pos.y = get_terrain_height(start_pos.x, start_pos.z)
-	target_pos.y = get_terrain_height(target_pos.x, target_pos.z)
-	
-	# Find closest points to start and target from existing points
-	var start_id: int = -1
-	var target_id: int = -1
-	var min_start_distance = INF
-	var min_target_distance = INF
-	
-	for point_id in astar_point_positions.keys():
-		var point_pos = astar_point_positions[point_id]
-		
-		var start_distance = point_pos.distance_to(start_pos)
-		if start_distance < min_start_distance:
-			min_start_distance = start_distance
-			start_id = point_id
-		
-		var target_distance = point_pos.distance_to(target_pos)
-		if target_distance < min_target_distance:
-			min_target_distance = target_distance
-			target_id = point_id
-	
-	if start_id == -1 or target_id == -1:
-		print("Could not find suitable start or target points!")
-		return PackedVector3Array()
-	
-	print("Finding path from ", start_id, " to ", target_id)
-	
-	# Find the path
-	if true:
-		current_path = astar.get_point_path(start_id, target_id)
-		print("Path found with ", current_path.size(), " points")
-		
-		# Visualize the path
-		visualize_path(current_path)
-		
-		return current_path
-	else:
-		print("No path found between points!")
-		return PackedVector3Array()
-
-func calculate_height_weight(height: float) -> float:
-	"""Calculate path weight based on terrain height. Lower weights are preferred."""
-	if not height_weight_curve:
-		# Default behavior: penalize extreme heights
-		var normalized_height = abs(height + 2) / 3 
-		normalized_height = clamp(normalized_height, 0.0, 1.0)
-		
-		# Create a U-curve: low weight at mid-heights, high weight at extremes
-		var weight_factor = pow(abs(normalized_height - 0.5) * 2.0, 2.0)
-		return lerp(min_weight, max_weight, weight_factor)
-	else:
-		# Use custom curve
-		var normalized_height = height / terrain_height_multiplier
-		normalized_height = clamp(normalized_height * 0.5 + 0.5, 0.0, 1.0)  # Normalize to 0-1
-		var curve_value = height_weight_curve.sample(normalized_height)
-		return lerp(min_weight, max_weight, curve_value)
-
-func visualize_path(path: PackedVector3Array):
-	"""Create debug visualization of the path"""
-	if path.size() < 2:
-		return
-	
-	# Create a new node for the path visualization
-	path_line = Node3D.new()
-	path_line.name = "PathVisualization"
-	add_child(path_line)
-	
-	# Create line segments between path points
-	for i in range(path.size() - 1):
-		var line_mesh = MeshInstance3D.new()
-		var mesh = ArrayMesh.new()
-		
-		var arrays = []
-		arrays.resize(Mesh.ARRAY_MAX)
-		
-		var vertices = PackedVector3Array()
-		var colors = PackedColorArray()
-		
-		# Create a simple line
-		vertices.push_back(path[i])
-		vertices.push_back(path[i + 1])
-		colors.push_back(Color.RED)
-		colors.push_back(Color.RED)
-		
-		arrays[Mesh.ARRAY_VERTEX] = vertices
-		arrays[Mesh.ARRAY_COLOR] = colors
-		
-		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINES, arrays)
-		line_mesh.mesh = mesh
-		
-		path_line.add_child(line_mesh)
-	
-	# Add spheres at path points for better visibility
-	for point in path:
-		var sphere = MeshInstance3D.new()
-		var sphere_mesh = SphereMesh.new()
-		sphere_mesh.radius = 0.25
-		sphere_mesh.height = 0.5
-		sphere.mesh = sphere_mesh
-		sphere.position = point
-		
-		# Create material for the sphere
-		var material = StandardMaterial3D.new()
-		material.albedo_color = Color.YELLOW
-		material.flags_unshaded = true
-		sphere.set_surface_override_material(0, material)
-		
-		path_line.add_child(sphere)
-
-func clear_path_visualization():
-	"""Remove the current path visualization"""
-	if path_line:
-		path_line.queue_free()
-		path_line = null
-	current_path.clear()
 
 
 func _on_tree_exiting():
