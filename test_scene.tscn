@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 [gd_scene load_steps=27 format=3 uid="uid://dov4h4ifh60v7"]
+=======
+[gd_scene load_steps=28 format=3 uid="uid://dov4h4ifh60v7"]
+>>>>>>> Stashed changes
 
 [ext_resource type="Texture2D" uid="uid://0wof2ikeolop" path="res://assets/texture_01.png" id="1_tbqoc"]
 [ext_resource type="Script" uid="uid://bjenl5h3t2m30" path="res://Camera3D.gd" id="3_opq1w"]
@@ -118,7 +122,11 @@ shadow_enabled = true
 environment = SubResource("Environment_pk4ow")
 
 [node name="Camera3D" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+<<<<<<< Updated upstream
 transform = Transform3D(1, 0, 0, 0, 0.595468, 0.803379, 0, -0.803379, 0.595468, 0.0735626, 32.6494, 16.6072)
+=======
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 30.7938, 15.0633)
+>>>>>>> Stashed changes
 script = ExtResource("3_opq1w")
 target = NodePath("../VehicleBody3D")
 lockYAxis = true
@@ -140,9 +148,15 @@ grenade_gun = ExtResource("8_0dkfu")
 [node name="VehicleBody3D" parent="." groups=["player"] instance=ExtResource("8_2h328")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.28665, 16.2972, 0.195471)
 collision_layer = 5
+<<<<<<< Updated upstream
 base_engine_power = 300.0
 base_friction_slip = 0.85
 min_friction_slip = 0.65
+=======
+mass = 50.0
+max_steering_angle = 1.0
+base_engine_power = 150.0
+>>>>>>> Stashed changes
 starting_gun = ExtResource("4_6vq5s")
 
 [node name="Label" type="Label" parent="."]
@@ -185,6 +199,10 @@ shape = SubResource("ConvexPolygonShape3D_njel3")
 shape = SubResource("HeightMapShape3D_vr1i5")
 
 [node name="InfiniteTerrain" type="StaticBody3D" parent="." node_paths=PackedStringArray("player")]
+<<<<<<< Updated upstream
+=======
+physics_material_override = SubResource("PhysicsMaterial_rpuu0")
+>>>>>>> Stashed changes
 script = ExtResource("11_rpuu0")
 player = NodePath("../VehicleBody3D")
 terrain_noise = SubResource("FastNoiseLite_rpuu0")
