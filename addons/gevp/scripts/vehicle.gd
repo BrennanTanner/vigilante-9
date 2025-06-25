@@ -304,31 +304,6 @@ extends RigidBody3D
 ## Wheel mass in kilograms.
 @export var rear_wheel_mass := 15.0
 
-
-@export_group("Aerodynamics")
-## The drag coefficient quantifies how much [b]drag[/b] (force against thrust)
-## the vehicle recieves when moving through air. In the drag equation,
-## a lower drag coefficient means the vehicle will experience less drag
-## force, allowing it to move faster.
-## [br]Typically, the drag coefficient is assumed from the shape of the
-## body, where more teardrop-shaped bodies experience a lower drag coefficient.
-## Un-streamlined cyllindrical bodies have a drag coefficient of
-## around [code]0.80[/code], while more streamlined teardrop-shaped bodies 
-## can have a drag coefficient as low as [code]0.05[/code], or even lower.
-## [br]As a more relavant example, most cars have drag coefficients
-## around [code]0.40[/code].
-@export var coefficient_of_drag := 0.3
-## From [url=https://www.grc.nasa.gov/www/k-12/VirtualAero/BottleRocket/airplane/density.html#:~:text=Halving%20the%20density%20halves%20the,above%20which%20it%20cannot%20fly.]NASA[/url]:
-## [i]"Halving the density halves the lift, halving the density halves the drag. The [lb]air[rb] density depends on the type of [lb]air[rb] and the depth of the [lb]air[rb]. In the atmosphere, air density decreases as altitude increases. This explains why airplanes have a flight ceiling, an altitude above which it cannot fly."[/i]
-@export var air_density := 1.225
-## The amount of surface area the front-facing part of the vehicle has,
-## in meters squared ([code]m^2[/code]).
-## [br][br]
-## [b]Note:[/b] You do not have to calculate this value to be exact,
-## a rough estimate - or even something completely different, depending
-## on the result you want - will do.
-@export var frontal_area := 2.0
-
 const ANGULAR_VELOCITY_TO_RPM := 60.0 / TAU
 
 var wheel_array : Array[Wheel] = []
@@ -619,7 +594,6 @@ func _physics_process(delta : float) -> void:
 	previous_global_position = global_position
 	speed = local_velocity.length()
 	
-	process_drag()
 	process_braking(delta)
 	process_steering(delta)
 	process_throttle(delta)
@@ -630,10 +604,6 @@ func _physics_process(delta : float) -> void:
 	process_forces(delta)
 	process_stability()
 
-func process_drag() -> void:
-	var drag := 0.5 * air_density * pow(speed, 2.0) * frontal_area * coefficient_of_drag
-	if drag > 0.0:
-		apply_central_force(-local_velocity.normalized() * drag)
 
 func process_braking(delta : float) -> void:
 	if (brake_input < brake_amount):

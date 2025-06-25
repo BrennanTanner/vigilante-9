@@ -13,10 +13,10 @@ func _ready() -> void:
 	max_contacts_reported = 1
 	linear_damp = 1.0
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if player:
 		var distance = global_position.distance_to(player.global_position)
 		if distance <= MAX_DISTANCE:

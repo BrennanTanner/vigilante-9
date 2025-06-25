@@ -11,7 +11,7 @@ func _ready():
 	follow_body = target
 	offset = global_position - follow_body.global_position
 
-func _process(delta: float):
+func _process(_delta: float):
 	if lockYAxis:
 		global_position = follow_body.global_position + offset
 	# Update camera position to follow the target with the initial offset

@@ -112,10 +112,6 @@ fractal_type = 0
 
 [node name="TestScene" type="Node3D"]
 
-[node name="GridMap" type="GridMap" parent="."]
-cell_size = Vector3(100, 1, 100)
-metadata/_editor_floor_ = Vector3(0, 0, 0)
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
@@ -186,12 +182,15 @@ mountain_strength = 0.1
 metadata/_custom_type_script = "uid://bekdo6mejkpwv"
 
 [node name="VehicleController" parent="." node_paths=PackedStringArray("vehicle_node") instance=ExtResource("11_2dw41")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09154, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.86042, 0)
 vehicle_node = NodePath("VehicleRigidBody")
 
 [node name="VehicleRigidBody" parent="VehicleController" groups=["player"] instance=ExtResource("12_ykxp3")]
-mass = 45.0
-gravity_scale = 3.0
+mass = 5.0
+gravity_scale = 2.0
+max_torque = 600.0
+max_rpm = 7000.0
+vehicle_mass = 1000.0
 
 [node name="EngineSound" parent="VehicleController/VehicleRigidBody" node_paths=PackedStringArray("vehicle") instance=ExtResource("13_g6y4b")]
 vehicle = NodePath("..")

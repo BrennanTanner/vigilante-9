@@ -33,10 +33,6 @@ func _process(delta):
 	
 	debug_ui.draw_debug_text("title", "Debug: " + debug_sets[current_debug_set], Vector2(10, 100), Color.WHITE, true)
 	
-	if Engine.physics_ticks_per_second < 120:
-		debug_ui.draw_debug_text("lowphysicsrate", "LOW PHYSICS TICK RATE.", Vector2(10, 300), Color.RED, true)
-		debug_ui.draw_debug_text("lowphysicsrate2", "Set physics ticks per second to at least 120.", Vector2(10, 320), Color.RED, true)
-	
 	if debug_sets[current_debug_set] == "Tire Forces":
 		debug_ui.draw_debug_text("tslip", "Tire Slip", Vector2(10, 120), Color.YELLOW, true)
 		debug_ui.draw_debug_text("tforce", "Tire Force", Vector2(10, 140), Color.RED, true)

@@ -18,17 +18,17 @@ func _ready() -> void:
 	max_contacts_reported = 1
 	
 		
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	check_ground()
-	right_self(delta)
+	right_self()
 	if is_on_ground:
-		move_to_player(delta)
-		face_player(delta)
+		move_to_player()
+		face_player()
 
 func check_ground() -> void:
 	is_on_ground = ray_cast.is_colliding()
 	
-func face_player(delta: float) -> void:
+func face_player() -> void:
 	if player:
 		var direction = (player.global_position - global_position)
 		direction.y = 0  # Keep on horizontal plane
@@ -46,13 +46,13 @@ func face_player(delta: float) -> void:
 			# Apply torque in the correct direction
 			apply_torque(Vector3(0, rotation_diff / 250, 0))
 			
-func move_to_player(delta: float) -> void:
+func move_to_player() -> void:
 	if player:
 		var direction = (player.global_position - global_position).normalized()
 		direction.y = 0  # Keep movement on horizontal plane
 		apply_force(direction * move_speed)
 
-func right_self(delta: float) -> void:
+func right_self() -> void:
 	var current_up = transform.basis.y
 	var target_up = up_direction
 	
@@ -60,7 +60,7 @@ func right_self(delta: float) -> void:
 		var right_rotation = current_up.cross(target_up).normalized()
 		apply_torque(right_rotation * righting_force)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if health <= 0:
 		die()
 
